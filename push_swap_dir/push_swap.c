@@ -6,10 +6,9 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:13:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/10/25 19:07:03 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/01 18:26:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../libft/libft.h"
 #include "push_swap.h"
 
 t_stack	*init_stack(void)
@@ -59,7 +58,7 @@ void	display_stack(t_stack *a)
 int	get_smallest(t_stack *a)
 {
 	t_Node	*current;
-	int	smallest;
+	int		smallest;
 
 	current = a->top;
 	smallest = current->value;
@@ -67,49 +66,10 @@ int	get_smallest(t_stack *a)
 	{
 		if (current->value < smallest)
 			smallest = current->value;
-	current = current->next;
+		current = current->next;
 	}
 	return (smallest);
 }
-
-void	sort_four(t_stack *a, t_stack *b)
-{
-	int	smallest;
-
-	smallest = get_smallest(a);
-	while	(smallest != a->top->value)
-	{
-		if (smallest == get_second(a))
-			swap_a(a);
-		else
-			reverse_ra(a);
-	}
-	push_b(a,b);
-	sort_three(a);
-	push_a(a,b);
-}
-
-
-void	sort_five(t_stack *a, t_stack *b)
-{
-	int	smallest;
-
-	smallest = get_smallest(a);
-	while	(smallest != a->top->value)
-	{
-		if (smallest == get_second(a))
-			swap_a(a);
-		else
-			reverse_ra(a);
-	}
-	push_b(a,b);
-	sort_four(a,b);
-	push_a(a,b);
-}
-
-
-
-
 
 int	main(int argc, char *argv[])
 {
@@ -119,32 +79,42 @@ int	main(int argc, char *argv[])
 	int		value;
 
 	i = argc;
+	a = init_stack();
+	b = init_stack();
 	if (argc < 2)
 	{
 		write(2, "ERROR\n", 6);
 		exit(-1);
 	}
-	a = init_stack();
-	b = init_stack();
 	while (--i > 0)
 	{
 		value = ft_atoi(argv[i]);
 		push(a, value);
 	}
-	if (a->size == 3)
-		sort_three(a);
-	else if (a->size == 2)
+	printf("min value is : %d\n", get_smallest(a));
+	printf("max value is : %d\n", find_max(a));
+	printf("midpoint index is : %d\n", midpoint(a));
+	printf("size of stack is : %d\n", a->size);
+	get_chunk(a, (get_smallest(a)), (find_max(a)));
+	if (sorted(a) == 1)
 	{
-		if (a->top->value > a->top->next->value)
-			swap_a(a);
+		write(1, "sor\n", 4);
+		return (0);
 	}
-	else if (a->size == 4)
-		sort_four(a,b);
-	else if (a->size == 5)
-		sort_five(a,b);
 	else
-		write(1,"\n",1);
-
-	display_stack(a);
+	{
+		if (a->size == 3)
+			sort_three(a);
+		else if (a->size == 2)
+		{
+			if (a->top->value > a->top->next->value)
+				swap_a(a);
+		}
+		else if (a->size == 4)
+			sort_four(a, b);
+		else if (a->size == 5)
+			sort_five(a, b);
+		else
+			write(1, "\n", 1);
+	}
 }
-

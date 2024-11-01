@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 19:38:02 by msalim            #+#    #+#             */
-/*   Updated: 2024/10/22 19:38:46 by msalim           ###   ########.fr       */
+/*   Updated: 2024/10/28 16:29:27 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ void	sort_three(t_stack *a)
 {
 	if (a->size < 3)
 		exit(-1);
-	while (!(peek(a) < get_second(a) && get_second(a) < get_third(a)))
+	while (sorted(a) == 0)
 	{
-		if (peek(a) > get_third(a))
-			rotate_a(a);
-		else if (peek(a) > get_second(a))
-			swap_a(a);
-		else if (get_second(a) > get_third(a))
-			swap_a(a);
+		while (!(peek(a) < get_second(a) && get_second(a) < get_third(a)))
+		{
+			if (peek(a) > get_third(a))
+				rotate_a(a);
+			else if (peek(a) > get_second(a))
+				swap_a(a);
+			else if (get_second(a) > get_third(a))
+				swap_a(a);
+		}
 	}
 }
