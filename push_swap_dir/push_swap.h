@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:20:48 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/01 17:53:06 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/02 16:18:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -55,7 +55,7 @@ int				is_empty(t_stack *a);
 //void			merge(int arr[], int left, int mid, int right);
 int				find_max(t_stack *a);
 int				midpoint(t_stack *a);
-void			find_Number(t_stack *a, int low, int high);
+void			find_Number(t_stack *a, int *low, int high);
 int				*get_chunk(t_stack *a, int min, int max);
 
 #endif
