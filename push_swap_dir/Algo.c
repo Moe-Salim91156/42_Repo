@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 14:38:19 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/02 17:47:01 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/02 19:36:44 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -15,7 +15,7 @@
 // find max >>> DONE
 // get the midpoint >>> DONE;
 // CHUNKING >> DONE ;
-// find number with respect to chunks;
+// find number with respect to chunks >> DONE;
 
 int	find_max(t_stack *a)
 {
