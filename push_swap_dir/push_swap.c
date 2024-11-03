@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:13:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/02 19:08:26 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/03 19:06:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -86,6 +86,7 @@ int	main(int argc, char *argv[])
 		write(2, "ERROR\n", 6);
 		exit(-1);
 	}
+	// Populate stack A
 	while (--i > 0)
 	{
 		value = ft_atoi(argv[i]);
@@ -95,26 +96,20 @@ int	main(int argc, char *argv[])
 	printf("max value is : %d\n", find_max(a));
 	printf("midpoint index is : %d\n", midpoint(a));
 	printf("size of stack is : %d\n", a->size);
-	get_chunk(a, (get_smallest(a)), (find_max(a)));
+	// If already sorted, exit
 	if (sorted(a) == 1)
 	{
 		write(1, "sor\n", 4);
 		return (0);
 	}
-	else
+	display_stack(a);
+	while (a->size > 3)
 	{
-		if (a->size == 3)
-			sort_three(a);
-		else if (a->size == 2)
-		{
-			if (a->top->value > a->top->next->value)
-				swap_a(a);
-		}
-		else if (a->size == 4)
-			sort_four(a, b);
-		else if (a->size == 5)
-			sort_five(a, b);
-		else
-			write(1, "\n", 1);
+		get_chunk(a, b, (get_smallest(a)), (find_max(a)));
+		printf("Stack A size: %d\n", a->size);
+		printf("Stack B size: %d\n", b->size);
 	}
+	display_stack(b);
+	write(1, "\n", 1);
+	display_stack(a);
 }
