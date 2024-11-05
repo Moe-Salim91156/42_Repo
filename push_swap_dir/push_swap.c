@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:13:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/05 17:10:34 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/05 17:29:26 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -97,10 +97,5 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	get_chunk(a, b, (get_smallest(a)), (find_max(a)));
-  send_to_a(a,b);
-  if (sorted(a) == 1)
-    printf("SORTED\n");
-  display_stack(a);
-  display_stack(b);
-  
+	send_to_a(a, b);
 }
