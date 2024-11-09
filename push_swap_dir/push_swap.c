@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:13:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/05 17:29:26 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:33:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -23,35 +23,18 @@ t_stack	*init_stack(void)
 	return (stack);
 }
 
-void	free_stack(t_stack *a)
+void	algo_decide(t_stack *a, t_stack *b)
 {
-	t_Node	*current;
-	t_Node	*next;
-
-	current = a->top;
-	while (current != NULL)
+	if (a->size == 3)
+		sort_three(a);
+	else if (a->size == 4)
+		sort_four(a, b);
+	else if (a->size == 5)
+		sort_five(a, b);
+	else
 	{
-		next = current->next;
-		free(current);
-		current = next;
-	}
-	free(a);
-}
-
-void	display_stack(t_stack *a)
-{
-	t_Node	*current;
-
-	current = a->top;
-	if (!current)
-	{
-		write(2, "ERROR\n", 6);
-		exit(-1);
-	}
-	while (current != NULL)
-	{
-		printf("%d -> \n", current->value);
-		current = current->next;
+		get_chunk(a, b, (get_smallest(a)), (find_max(a)));
+		send_to_a(a, b);
 	}
 }
 
@@ -76,26 +59,25 @@ int	main(int argc, char *argv[])
 	t_stack	*a;
 	t_stack	*b;
 	int		i;
-	int		value;
+	char	**numbers;
+	char	*joined;
 
-	i = argc;
+	joined = NULL;
+	numbers = NULL;
 	a = init_stack();
 	b = init_stack();
-	if (argc < 2)
+	joined = ft_strjoin_new(argc, argv, " ");
+	numbers = ft_split(joined, ' ');
+	i = 0;
+	while (numbers[i] != NULL)
+		i++;
+	while (--i >= 0)
+		push(a, ft_atoi(numbers[i]));
+	if (!check_input(numbers) || sorted(a) == 1)
 	{
-		write(2, "ERROR\n", 6);
-		exit(-1);
+		free_all(a, b, numbers, joined);
+		exit(EXIT_FAILURE);
 	}
-	while (--i > 0)
-	{
-		value = ft_atoi(argv[i]);
-		push(a, value);
-	}
-	if (sorted(a) == 1)
-	{
-		write(1, "sor\n", 4);
-		return (0);
-	}
-	get_chunk(a, b, (get_smallest(a)), (find_max(a)));
-	send_to_a(a, b);
+	algo_decide(a, b);
+	free_all(a, b, numbers, joined);
 }

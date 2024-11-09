@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorted.c                                           :+:      :+:    :+:   */
+/*   atol.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 18:58:15 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/09 14:43:31 by msalim           ###   ########.fr       */
+/*   Created: 2024/11/09 18:54:15 by msalim            #+#    #+#             */
+/*   Updated: 2024/11/09 18:54:58 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "push_swap.h"
 
-int	sorted(t_stack *a)
+long	ft_atol(const char *nptr)
 {
-	t_Node	*current;
+	int		sign;
+	long	result;
 
-	current = a->top;
-	while (current->next != NULL)
+	sign = 1;
+	result = 0;
+	while (*nptr == ' ' || *nptr == '\t' || *nptr == '\n' || *nptr == '\v'
+		|| *nptr == '\f' || *nptr == '\r')
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		if (current->value > current->next->value)
-			return (0);
-		current = current->next;
+		if (*nptr == '-')
+			sign *= -1;
+		nptr++;
 	}
-	return (1);
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		result = result * 10 + (*nptr - '0');
+		nptr++;
+	}
+	return (result * sign);
 }

@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 19:38:02 by msalim            #+#    #+#             */
-/*   Updated: 2024/10/28 16:29:27 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/07 14:39:09 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	peek(t_stack *a)
 
 void	sort_three(t_stack *a)
 {
-	if (a->size < 3)
-		exit(-1);
 	while (sorted(a) == 0)
 	{
 		while (!(peek(a) < get_second(a) && get_second(a) < get_third(a)))

@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 17:20:48 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/05 17:23:05 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/09 18:55:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -28,7 +28,14 @@ typedef struct stack
 	int			size;
 	t_Node		*top;
 }				t_stack;
-
+long			ft_atol(const char *nptr);
+int				check_input(char **arr);
+void			free_stack(t_stack *a);
+void			free_2d_array(char **array);
+void			free_all(t_stack *a, t_stack *b, char **array, char *arr);
+char			*ft_strjoin_new(int argc, char **argv, char *sep);
+int				error_manager(int argc, char *argv[]);
+void			algo_decide(t_stack *a, t_stack *b);
 void			send_to_a(t_stack *a, t_stack *b);
 void			send_chunk_midpoint(t_stack *a, t_stack *b, t_Node *current);
 void			send_chunk(t_stack *a, t_stack *b, t_Node *current);
@@ -57,6 +64,7 @@ int				is_empty(t_stack *a);
 int				find_max(t_stack *a);
 int				midpoint(t_stack *a);
 void			find_Number(t_stack *a, t_stack *b, int *chunk, int high);
-int				*get_chunk(t_stack *a, t_stack *b, int min, int max);
+void			get_chunk(t_stack *a, t_stack *b, int min, int max);
+int				determine_num_chunks(int num, t_stack *a);
 
 #endif

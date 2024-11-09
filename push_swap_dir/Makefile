@@ -2,7 +2,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-PWSRCS = push_swap.c algo_refactor.c pop.c reverse_rotate.c rotate.c sorted.c swap.c push.c empty.c sort_three.c sort_five.c sort_four.c Algo.c
+PWSRCS = atol.c push_swap.c algo_refactor.c pop.c reverse_rotate.c rotate.c sorted.c swap.c push.c empty.c sort_three.c sort_five.c sort_four.c algo.c free.c error_handler.c
 
 PWOBJ = $(PWSRCS:.c=.o)
 
