@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:49:37 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/09 18:58:46 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/11 13:19:25 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -14,7 +14,7 @@
 // join and split >> (handle stupid input) >> DONE
 // check if digit >>  DONE
 // check if there is duplicates >> DONE
-// check if its pass MAX_INT
+// check if its pass MAX_INT >> DONE
 
 static int	check_duplicate(char **numbers)
 {

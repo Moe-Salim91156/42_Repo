@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 19:13:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/09 18:33:00 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/11 13:41:38 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -54,6 +54,12 @@ int	get_smallest(t_stack *a)
 	return (smallest);
 }
 
+void	check_argc(int argc)
+{
+	if (argc < 2)
+		exit(EXIT_FAILURE);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_stack	*a;
@@ -62,6 +68,7 @@ int	main(int argc, char *argv[])
 	char	**numbers;
 	char	*joined;
 
+	check_argc(argc);
 	joined = NULL;
 	numbers = NULL;
 	a = init_stack();
