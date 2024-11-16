@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:56:26 by msalim            #+#    #+#             */
-/*   Updated: 2024/09/12 16:20:22 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/16 19:31:45 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,4 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	strs = ft_find_fill(strs, s, c);
 	return (strs);
-}
-int	main(void)
-{
-	printf("%p\n",ft_split("CCCCCCstrCCCst", 'C'));
-
 }
