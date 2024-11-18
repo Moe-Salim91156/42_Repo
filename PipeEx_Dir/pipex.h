@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/16 19:03:59 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/18 19:30:55 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <unistd.h>
-void  first_child(int pipefd[]);
+void  first_child(int pipefd[], char **av);
+void  execute_command(char **argv);
 #endif

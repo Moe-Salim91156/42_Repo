@@ -6,17 +6,17 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/16 19:26:45 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/18 19:53:11 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "pipex.h"
-
-void  first_child(int pipefd[])
+void  first_child(int pipefd[], char **argv)
 {
   int in_fd;
 
-  in_fd = open("infile", O_RDONLY);
+  in_fd = open(argv[1], O_RDONLY);
+  printf("file : %s", argv[1]);
   if (in_fd == -1)
   {
     perror("open infile failed");
@@ -24,11 +24,24 @@ void  first_child(int pipefd[])
   }
   dup2(in_fd, STDIN_FILENO); // redirect the stdin to the infile step here 
   close(in_fd); // close the in_fd we dont need it anymore
-  // redirect the stdout to the write end step here 
   dup2(pipefd[1], STDOUT_FILENO);
+  close(pipefd[1]); // close this because we dont need it
   close(pipefd[0]); // close this because we dont need it
+  execute_command(argv);
   // execute the command
+}
 
+void  execute_command(char **argv)
+{
+  char  *input;
+  char  **splitted;
+  char  *cmd;
+
+  input = argv[2];
+  splitted = ft_split(input, ' ');
+  cmd = ft_strjoin("/bin/", splitted[0]);
+  printf("the cmd is %s\n", cmd);
+  execve(cmd, splitted, NULL);
 }
 //first child will do : 
     // step1;
