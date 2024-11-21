@@ -28,7 +28,7 @@ static void	protect(pid_t pid, int pipefd[])
 	}
 }
 
-static void handle_pipe(int pipefd[])
+static void	handle_pipe(int pipefd[])
 {
 	if (pipe(pipefd) == -1)
 	{
@@ -47,8 +47,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 5)
 		exit(-1);
-  pipe(pipefd);
-  handle_pipe(pipefd);
+	pipe(pipefd);
+	handle_pipe(pipefd);
 	pid1 = fork();
 	protect(pid1, pipefd);
 	if (pid1 == 0)
