@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/21 18:14:35 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:33:58 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	main(int argc, char **argv)
 
 	if (argc != 5)
 		exit(-1);
-	pipe(pipefd);
 	handle_pipe(pipefd);
 	pid1 = fork();
 	protect(pid1, pipefd);
