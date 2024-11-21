@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
+
 /*
  * function to handle the fds if it fails in any point;
  *
@@ -17,12 +18,12 @@
  * to the STDIN fd, so its now the input
  * first child is gonna execute the first command
  *
- * second child will redirect the stdout fd to the 
+ * second child will redirect the stdout fd to the
  * out file fd, so the output will be stored there
  * and is gonna execute the second command
  *
  * execute command 1 and 2 are kinda the same functionality
- * but with repsect to the small different between the first 
+ * but with repsect to the small different between the first
  * and the second child implementation;
  *
  */
@@ -31,8 +32,8 @@ void	handle(int fd, int pipefd[])
 	if (fd == -1)
 	{
 		perror("file desc is not valid, -1 ");
-    close(pipefd[0]);
-    close(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		exit(-1);
 	}
 }
@@ -45,8 +46,8 @@ void	first_child(int pipefd[], char **argv)
 	if (in_fd == -1)
 	{
 		perror("open infile failed");
-    close(pipefd[0]);
-    close(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		exit(EXIT_FAILURE);
 	}
 	close(pipefd[0]);
@@ -57,8 +58,8 @@ void	first_child(int pipefd[], char **argv)
 	if ((dup2(pipefd[1], STDOUT_FILENO)) == -1)
 	{
 		perror("dup the pipe failed");
-    close(pipefd[0]);
-    close(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		exit(-1);
 	}
 	close(pipefd[1]);
@@ -100,16 +101,16 @@ void	second_child(int pipefd[], char **argv)
 	if ((dup2(pipefd[0], STDIN_FILENO)) == -1)
 	{
 		perror("dup the pipefd[0] failed");
-    close(pipefd[0]);
-    close(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		exit(-1);
 	}
 	dup2(out_fd, STDOUT_FILENO);
 	if ((dup2(out_fd, STDOUT_FILENO)) == -1)
 	{
 		perror("dup the out_fd failed");
-    close(pipefd[0]);
-    close(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		exit(-1);
 	}
 	close(out_fd);

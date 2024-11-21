@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/21 18:06:18 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/21 18:14:35 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,26 @@
  * function to protect the process id if its fails to fork;
  * main function just create the child processes and pass it to
  * their respective function;
-  */
+ */
 static void	protect(pid_t pid, int pipefd[])
 {
 	if (pid == -1)
 	{
 		perror("fork failed");
-    close(pipefd[0]);
-    close(pipefd[1]);
+		close(pipefd[0]);
+		close(pipefd[1]);
 		exit(-1);
+	}
+}
+
+static void handle_pipe(int pipefd[])
+{
+	if (pipe(pipefd) == -1)
+	{
+		close(pipefd[0]);
+		close(pipefd[1]);
+		perror("pipe creation failed");
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -36,13 +47,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 5)
 		exit(-1);
-	if (pipe(pipefd) == -1)
-	{
-    close(pipefd[0]);
-    close(pipefd[1]);
-		perror("pipe creation failed");
-		exit(EXIT_FAILURE);
-	}
+  pipe(pipefd);
+  handle_pipe(pipefd);
 	pid1 = fork();
 	protect(pid1, pipefd);
 	if (pid1 == 0)
