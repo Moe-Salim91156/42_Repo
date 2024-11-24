@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/21 18:34:35 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/24 17:27:24 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -27,19 +27,65 @@
  * and the second child implementation;
  *
  */
-void	handle(int fd, int pipefd[])
+static void	handle(int fd, int pipefd[])
 {
 	if (fd == -1)
 	{
 		perror("file desc is not valid, -1 ");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(-1);
+    close(fd);
+		exit(EXIT_FAILURE);
 	}
+}
+void ft_free_split(char **split_array)
+{
+    int i;
+
+    if (!split_array)
+        return;
+    i = 0;
+    while (split_array[i])
+    {
+        free(split_array[i]); // Free each string
+        i++;
+    }
+    free(split_array); // Free the array itself
+}
+
+// Free memory allocated by ft_strjoin
+void ft_free_strjoin(char *joined_str)
+{
+    if (joined_str)
+        free(joined_str);
+}
+
+// Unified freeing function for split and strjoin
+void ft_free_all(char **split_array, char *joined_str)
+{
+    ft_free_split(split_array);
+    ft_free_strjoin(joined_str);
+}
+
+static void	execute_command(char **argv, int flag)
+{
+	char	*input;
+	char	**splitted;
+	char	*cmd;
+
+	if (flag == 1)
+		input = argv[2];
+	else
+		input = argv[3];
+	splitted = ft_split(input, ' ');
+	cmd = ft_strjoin("/bin/", splitted[0]);
+	execve(cmd, splitted, NULL);
+  ft_free_all(splitted,cmd);
 }
 
 void	first_child(int pipefd[], char **argv)
 {
+  int dup2_value;
 	int	in_fd;
 
 	in_fd = open(argv[1], O_RDONLY);
@@ -48,46 +94,22 @@ void	first_child(int pipefd[], char **argv)
 		perror("open infile failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	close(pipefd[0]);
 	dup2(in_fd, STDIN_FILENO);
 	handle(in_fd, pipefd);
 	close(in_fd);
-	dup2(pipefd[1], STDOUT_FILENO);
-	if ((dup2(pipefd[1], STDOUT_FILENO)) == -1)
+	dup2_value = dup2(pipefd[1], STDOUT_FILENO);
+	if (dup2_value == -1)
 	{
 		perror("dup the pipe failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 	close(pipefd[1]);
-	execute_command(argv);
-}
-
-void	execute_command(char **argv)
-{
-	char	*input;
-	char	**splitted;
-	char	*cmd;
-
-	input = argv[2];
-	splitted = ft_split(input, ' ');
-	cmd = ft_strjoin("/bin/", splitted[0]);
-	execve(cmd, splitted, NULL);
-}
-
-void	execute_command2(char **argv)
-{
-	char	*input;
-	char	**splitted;
-	char	*cmd;
-
-	input = argv[3];
-	splitted = ft_split(input, ' ');
-	cmd = ft_strjoin("/bin/", splitted[0]);
-	execve(cmd, splitted, NULL);
+	execute_command(argv, 1);
 }
 
 void	second_child(int pipefd[], char **argv)
@@ -97,25 +119,23 @@ void	second_child(int pipefd[], char **argv)
 	out_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	handle(out_fd, pipefd);
 	close(pipefd[1]);
-	dup2(pipefd[0], STDIN_FILENO);
 	if ((dup2(pipefd[0], STDIN_FILENO)) == -1)
 	{
 		perror("dup the pipefd[0] failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
-	dup2(out_fd, STDOUT_FILENO);
 	if ((dup2(out_fd, STDOUT_FILENO)) == -1)
 	{
 		perror("dup the out_fd failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 	close(out_fd);
 	close(pipefd[0]);
-	execute_command2(argv);
+	execute_command(argv, 2);
 }
 /* first child will do :
  step1;

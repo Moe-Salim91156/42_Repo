@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/21 18:33:58 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/24 17:17:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	protect(pid_t pid, int pipefd[])
 		perror("fork failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv)
 	pid_t	pid2;
 
 	if (argc != 5)
-		exit(-1);
+		exit(1);
 	handle_pipe(pipefd);
 	pid1 = fork();
 	protect(pid1, pipefd);

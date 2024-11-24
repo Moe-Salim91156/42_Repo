@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/21 17:45:40 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/24 19:18:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+void  free_split(char **split);
+void  free_strjoin(char *joined);
+void  free_all(char **split, char *joined);
 void	first_child(int pipefd[], char **av);
 void	second_child(int pipefd[], char **av);
-void	execute_command(char **argv);
-void	execute_command2(char **argv);
 #endif
