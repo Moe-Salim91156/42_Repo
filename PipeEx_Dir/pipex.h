@@ -21,9 +21,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-void  free_split(char **split);
-void  free_strjoin(char *joined);
-void  free_all(char **split, char *joined);
+void	free_split(char **split);
+void	free_strjoin(char *joined);
+void	free_all(char **split, char *joined);
 void	first_child(int pipefd[], char **av);
 void	second_child(int pipefd[], char **av);
 #endif

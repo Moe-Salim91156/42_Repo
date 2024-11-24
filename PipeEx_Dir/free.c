@@ -9,32 +9,31 @@
 /*   Updated: 2024/11/24 19:18:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include  "pipex.h"
+#include "pipex.h"
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-  int i;
+	int	i;
 
-  if (!split)
-    return;
-  i = 0;
-  while (split[i])
-  {
-    free(split[i]);
-    i++;
-  }
-  free(split);
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
 
-void free_strjoin(char *joined)
+void	free_strjoin(char *joined)
 {
-  if (joined)
-    free(joined);
+	if (joined)
+		free(joined);
 }
 
-void free_all(char **split, char *joined)
+void	free_all(char **split, char *joined)
 {
-  free_split(split);
-  free_strjoin(joined);
+	free_split(split);
+	free_strjoin(joined);
 }
-

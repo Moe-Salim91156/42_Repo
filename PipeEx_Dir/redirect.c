@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/24 17:27:24 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/24 19:20:59 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -34,37 +34,9 @@ static void	handle(int fd, int pipefd[])
 		perror("file desc is not valid, -1 ");
 		close(pipefd[0]);
 		close(pipefd[1]);
-    close(fd);
+		close(fd);
 		exit(EXIT_FAILURE);
 	}
-}
-void ft_free_split(char **split_array)
-{
-    int i;
-
-    if (!split_array)
-        return;
-    i = 0;
-    while (split_array[i])
-    {
-        free(split_array[i]); // Free each string
-        i++;
-    }
-    free(split_array); // Free the array itself
-}
-
-// Free memory allocated by ft_strjoin
-void ft_free_strjoin(char *joined_str)
-{
-    if (joined_str)
-        free(joined_str);
-}
-
-// Unified freeing function for split and strjoin
-void ft_free_all(char **split_array, char *joined_str)
-{
-    ft_free_split(split_array);
-    ft_free_strjoin(joined_str);
 }
 
 static void	execute_command(char **argv, int flag)
@@ -80,12 +52,12 @@ static void	execute_command(char **argv, int flag)
 	splitted = ft_split(input, ' ');
 	cmd = ft_strjoin("/bin/", splitted[0]);
 	execve(cmd, splitted, NULL);
-  ft_free_all(splitted,cmd);
+	free_all(splitted, cmd);
 }
 
 void	first_child(int pipefd[], char **argv)
 {
-  int dup2_value;
+	int	dup2_value;
 	int	in_fd;
 
 	in_fd = open(argv[1], O_RDONLY);
