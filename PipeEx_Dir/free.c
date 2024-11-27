@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:26:41 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/24 19:18:36 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 12:49:46 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -30,6 +30,24 @@ void	free_strjoin(char *joined)
 {
 	if (joined)
 		free(joined);
+}
+
+void	free_aall(char **splitted, char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (splitted)
+	{
+		while (splitted[i])
+		{
+			free(splitted[i]);
+			i++;
+		}
+		free(splitted);
+	}
+	if (cmd)
+		free(cmd);
 }
 
 void	free_all(char **split, char *joined)

@@ -6,7 +6,7 @@ LIBFT_DIR = ../libft
 
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
-PIPE_SRCS= pipex.c redirect.c free.c
+PIPE_SRCS= pipex.c redirect.c free.c find_cmd.c
 
 PIPE_OBJS= $(PIPE_SRCS:.c=.o)
 

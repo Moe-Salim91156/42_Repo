@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/24 19:20:59 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 13:59:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -29,18 +29,19 @@
  */
 static void	handle(int fd, int pipefd[])
 {
-	if (fd == -1)
+	if (fd < 0)
 	{
-		perror("file desc is not valid, -1 ");
+		perror("fd, error");
+		close(fd);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		close(fd);
-		exit(EXIT_FAILURE);
+		_exit(1);
 	}
 }
 
-static void	execute_command(char **argv, int flag)
+void	execute_command(char **argv, int flag, char **envp)
 {
+	char	*new;
 	char	*input;
 	char	**splitted;
 	char	*cmd;
@@ -50,24 +51,28 @@ static void	execute_command(char **argv, int flag)
 	else
 		input = argv[3];
 	splitted = ft_split(input, ' ');
-	cmd = ft_strjoin("/bin/", splitted[0]);
-	execve(cmd, splitted, NULL);
-	free_all(splitted, cmd);
+	cmd = splitted[0];
+	new = search_command_in_path(cmd, envp);
+	if (new != NULL)
+	{
+		execve(new, splitted, envp);
+	}
+	else
+	{
+		perror("Command not found kkkkkk");
+		free(new);
+		free_split(splitted);
+		_exit(1);
+	}
 }
 
-void	first_child(int pipefd[], char **argv)
+void	first_child(int pipefd[], char **argv, char **envp)
 {
 	int	dup2_value;
 	int	in_fd;
 
 	in_fd = open(argv[1], O_RDONLY);
-	if (in_fd == -1)
-	{
-		perror("open infile failed");
-		close(pipefd[0]);
-		close(pipefd[1]);
-		exit(1);
-	}
+	handle(in_fd, pipefd);
 	close(pipefd[0]);
 	dup2(in_fd, STDIN_FILENO);
 	handle(in_fd, pipefd);
@@ -75,16 +80,15 @@ void	first_child(int pipefd[], char **argv)
 	dup2_value = dup2(pipefd[1], STDOUT_FILENO);
 	if (dup2_value == -1)
 	{
-		perror("dup the pipe failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(EXIT_FAILURE);
+		_exit(errno);
 	}
 	close(pipefd[1]);
-	execute_command(argv, 1);
+	execute_command(argv, 1, envp);
 }
 
-void	second_child(int pipefd[], char **argv)
+void	second_child(int pipefd[], char **argv, char **envp)
 {
 	int	out_fd;
 
@@ -93,21 +97,21 @@ void	second_child(int pipefd[], char **argv)
 	close(pipefd[1]);
 	if ((dup2(pipefd[0], STDIN_FILENO)) == -1)
 	{
-		perror("dup the pipefd[0] failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(EXIT_FAILURE);
+		perror("dup the pipefd[0] failed");
+		_exit(errno);
 	}
 	if ((dup2(out_fd, STDOUT_FILENO)) == -1)
 	{
-		perror("dup the out_fd failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(EXIT_FAILURE);
+		perror("dup the out_fd failed");
+		_exit(errno);
 	}
 	close(out_fd);
 	close(pipefd[0]);
-	execute_command(argv, 2);
+	execute_command(argv, 2, envp);
 }
 /* first child will do :
  step1;

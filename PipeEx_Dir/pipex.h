@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:28 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/24 19:18:46 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:13:24 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+char	*search_command_in_path(char *cmd, char **envp);
 void	free_split(char **split);
 void	free_strjoin(char *joined);
-void	free_all(char **split, char *joined);
-void	first_child(int pipefd[], char **av);
-void	second_child(int pipefd[], char **av);
+void	free_all(char **l, char *k);
+void	free_aall(char **split, char *joined);
+void	first_child(int pipefd[], char **av, char **ap);
+void	second_child(int pipefd[], char **av, char **env);
 #endif

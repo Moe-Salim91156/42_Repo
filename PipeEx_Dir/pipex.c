@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/24 17:17:00 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/25 18:16:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	protect(pid_t pid, int pipefd[])
 {
 	if (pid == -1)
 	{
-		perror("fork failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		exit(EXIT_FAILURE);
+		perror("fork failed");
+		_exit(errno);
 	}
 }
 
@@ -35,11 +35,11 @@ static void	handle_pipe(int pipefd[])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		perror("pipe creation failed");
-		exit(EXIT_FAILURE);
+		_exit(errno);
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	int		pipefd[2];
 	pid_t	pid1;
@@ -51,11 +51,11 @@ int	main(int argc, char **argv)
 	pid1 = fork();
 	protect(pid1, pipefd);
 	if (pid1 == 0)
-		first_child(pipefd, argv);
+		first_child(pipefd, argv, envp);
 	pid2 = fork();
 	protect(pid2, pipefd);
 	if (pid2 == 0)
-		second_child(pipefd, argv);
+		second_child(pipefd, argv, envp);
 	close(pipefd[0]);
 	close(pipefd[1]);
 	waitpid(pid1, NULL, 0);
