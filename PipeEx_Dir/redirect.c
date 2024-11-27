@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/27 14:25:48 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 16:36:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -58,7 +58,7 @@ static void	execute_command(char **argv, int flag, char **envp)
 	}
 	else
 	{
-		perror("Command not found kkkkkk");
+		write(2, "Command not found\n", 18);
 		free(new);
 		free_split(splitted);
 		_exit(1);

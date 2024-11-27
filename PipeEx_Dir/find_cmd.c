@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:58:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/27 14:15:45 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 16:33:34 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ static char	*find_command_in_directories(char *cmd, char **dir)
 	char	*new_cm;
 
 	j = 0;
+	if (!cmd || !cmd[0])
+		return (NULL);
 	while (dir[j])
 	{
+		if (!dir[j])
+			return (NULL);
 		full_cmd = ft_strjoin(dir[j], "/");
 		if (!full_cmd)
 			return (NULL);
@@ -69,6 +73,11 @@ char	*search_command_in_path(char *cmd, char **envp)
 	if (!dir)
 		return (NULL);
 	result = find_command_in_directories(cmd, dir);
+	if (!result)
+	{
+		free_split(dir);
+		return (NULL);
+	}
 	free_split(dir);
 	return (result);
 }
