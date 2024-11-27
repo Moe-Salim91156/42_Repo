@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/27 13:59:05 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:25:48 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -32,14 +32,13 @@ static void	handle(int fd, int pipefd[])
 	if (fd < 0)
 	{
 		perror("fd, error");
-		close(fd);
 		close(pipefd[0]);
 		close(pipefd[1]);
 		_exit(1);
 	}
 }
 
-void	execute_command(char **argv, int flag, char **envp)
+static void	execute_command(char **argv, int flag, char **envp)
 {
 	char	*new;
 	char	*input;
