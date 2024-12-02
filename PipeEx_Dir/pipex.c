@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/25 18:16:23 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/28 17:53:42 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	protect(pid_t pid, int pipefd[])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		perror("fork failed");
-		_exit(errno);
+		exit(errno);
 	}
 }
 
@@ -35,7 +35,7 @@ static void	handle_pipe(int pipefd[])
 		close(pipefd[0]);
 		close(pipefd[1]);
 		perror("pipe creation failed");
-		_exit(errno);
+		exit(errno);
 	}
 }
 
@@ -58,8 +58,8 @@ int	main(int argc, char **argv, char **envp)
 		second_child(pipefd, argv, envp);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+  wait(NULL);
+	wait(NULL);
 	return (0);
 }
 /*we set up the enviornment today

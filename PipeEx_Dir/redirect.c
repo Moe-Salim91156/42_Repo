@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 18:32:38 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/27 16:36:00 by msalim           ###   ########.fr       */
+/*   Updated: 2024/11/27 17:15:37 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -34,7 +34,7 @@ static void	handle(int fd, int pipefd[])
 		perror("fd, error");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		_exit(1);
+		exit(1);
 	}
 }
 
@@ -53,15 +53,13 @@ static void	execute_command(char **argv, int flag, char **envp)
 	cmd = splitted[0];
 	new = search_command_in_path(cmd, envp);
 	if (new != NULL)
-	{
 		execve(new, splitted, envp);
-	}
 	else
 	{
 		write(2, "Command not found\n", 18);
 		free(new);
 		free_split(splitted);
-		_exit(1);
+		exit(1);
 	}
 }
 
@@ -81,7 +79,7 @@ void	first_child(int pipefd[], char **argv, char **envp)
 	{
 		close(pipefd[0]);
 		close(pipefd[1]);
-		_exit(errno);
+		exit(errno);
 	}
 	close(pipefd[1]);
 	execute_command(argv, 1, envp);
@@ -99,14 +97,14 @@ void	second_child(int pipefd[], char **argv, char **envp)
 		close(pipefd[0]);
 		close(pipefd[1]);
 		perror("dup the pipefd[0] failed");
-		_exit(errno);
+		exit(errno);
 	}
 	if ((dup2(out_fd, STDOUT_FILENO)) == -1)
 	{
 		close(pipefd[0]);
 		close(pipefd[1]);
 		perror("dup the out_fd failed");
-		_exit(errno);
+		exit(errno);
 	}
 	close(out_fd);
 	close(pipefd[0]);
