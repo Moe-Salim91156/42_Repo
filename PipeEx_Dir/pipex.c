@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		second_child(pipefd, argv, envp);
 	close(pipefd[0]);
 	close(pipefd[1]);
-  wait(NULL);
+	wait(NULL);
 	wait(NULL);
 	return (0);
 }
