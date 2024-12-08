@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:07:15 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/08 17:42:40 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/08 19:27:08 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ typedef struct s_map
 }			t_map;
 int		open_map();
 t_map  *store_map(t_map *map);
+void  draw_wall(t_map *map, void *mlx, void *window, void *img);
 #endif

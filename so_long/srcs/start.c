@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:51:30 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/08 18:00:47 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/08 19:52:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
@@ -17,12 +17,6 @@
  * morph the map into an image (images);
  * validate the map;
  * */
-
-void	*mlx;
-void	*window;
-void	*img;
-int width, height;
-
 static t_map	*init_map(void)
 {
 	t_map	*map;
@@ -42,6 +36,11 @@ static t_map	*init_map(void)
 int	main(void)
 {
 	t_map	*map;
+  void  *mlx;
+  void  *window;
+  void  *img;
+  int width;
+  int height;
 
 	map = init_map();
 	mlx = mlx_init();
@@ -50,22 +49,17 @@ int	main(void)
 		perror("MLX initialization failed");
 		return (1);
 	}
-	window = mlx_new_window(mlx, 1000, 700, "Image Example");
+	window = mlx_new_window(mlx, 800, 1000 , "Image Example");
 	if (!window)
 	{
 		perror("Window creation failed");
 		return (1);
 	}
-	// Load an image
-	img = mlx_xpm_file_to_image(mlx, "./assets/image.xpm", &width, &height);
-	if (!img)
-	{
-		perror("Error loading image");
-		return (1);
-	}
-	printf("MLX initialized: %p\n", mlx);
-	printf("Window created: %p\n", window);
-	printf("Image loaded: %p\n", img);
+  img = mlx_xpm_file_to_image(mlx, "./assets/wall2.xpm", &width, &height);
+  if(!img)
+    perror("img nor found");
 	store_map(map);
+  draw_wall(map,mlx,window, img);
+  mlx_loop(mlx);
 	return (0);
 }

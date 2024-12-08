@@ -1,6 +1,6 @@
 CC = cc 
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 MFLAGS = -L minilibx-linux -lmlx -lXext -lX11
 LIBFT_DIR = libft
 
@@ -11,7 +11,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-src = start.c map_parser.c
+src = start.c map_parser.c load_images.c
 SRCS = $(addprefix $(SRCS_DIR)/, $(src)) #prefix (prepend the / for the dir name
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o)) # same thing here 
 

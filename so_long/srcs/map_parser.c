@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 17:34:23 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/08 18:55:46 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/08 19:15:08 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,15 @@ t_map	*store_map(t_map *map)
 	}
  	map->array[line_count] = NULL;
 	map->height = line_count;
+ printf("height of map  : %d\n" , map->height);
+  printf("width of map  : %d\n" , map->width);
+  for (int e = 0; e < line_count; e++)
+    printf(" array %s" , map->array[e]);
+
  	return (map);
 }
 /*
-printf("height of map  : %d\n" , map->height);
+  printf("height of map  : %d\n" , map->height);
   printf("width of map  : %d\n" , map->width);
   for (int e = 0; e < line_count; e++)
 	printf(" array %s\n" , map->array[e]);
