@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:07:15 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/08 19:27:08 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/09 17:47:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,18 @@ typedef struct s_map
 	int		height;
 	char	**array;
 }			t_map;
+
+typedef struct s_images
+{
+  void  *wall;
+  void  *player;
+  void  *floor;
+  void  *collectible;
+  void  *exit;
+} t_images;
+
 int		open_map();
 t_map  *store_map(t_map *map);
-void  draw_wall(t_map *map, void *mlx, void *window, void *img);
+void  draw_wall(t_map *map, void *mlx, void *window, t_images image);
+t_images  init_images_textures(void *mlx);
 #endif

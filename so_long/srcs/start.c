@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:51:30 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/08 19:52:20 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/09 18:57:38 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
@@ -49,17 +49,19 @@ int	main(void)
 		perror("MLX initialization failed");
 		return (1);
 	}
-	window = mlx_new_window(mlx, 800, 1000 , "Image Example");
+	window = mlx_new_window(mlx,835, 350 , "so_long");
 	if (!window)
 	{
 		perror("Window creation failed");
 		return (1);
 	}
-  img = mlx_xpm_file_to_image(mlx, "./assets/wall2.xpm", &width, &height);
+  img = mlx_xpm_file_to_image(mlx, "./assets/bg1.xpm", &width, &height);
+  mlx_put_image_to_window(mlx,window,img,0,0);
   if(!img)
     perror("img nor found");
 	store_map(map);
-  draw_wall(map,mlx,window, img);
+  t_images image = init_images_textures(mlx);
+  draw_wall(map,mlx,window, image);
   mlx_loop(mlx);
 	return (0);
 }
