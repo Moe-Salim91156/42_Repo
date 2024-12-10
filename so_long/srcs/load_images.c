@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:09:56 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/09 18:57:06 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:40:12 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,45 +16,56 @@
 // check for the values (0,1,E,P,C);
 // translate each value to their respective image;
 //
-t_images  init_images_textures(void *mlx)
+t_images  *init_images_textures(void *mlx)
 {
-  t_images  images;
+  t_images  *images;
 
+  images = malloc(sizeof(t_images));
   int height = 64;
   int width = 64;
-  images.wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm", &width, &height);
-  images.floor = mlx_xpm_file_to_image(mlx, "./assets/floor64.xpm", &width,&height);
-  images.exit = NULL;
-  images.player = NULL;
-  images.collectible = mlx_xpm_file_to_image(mlx,"./assets/coin32.xpm",&width, &height);
+  images->wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm", &width, &height);
+  images->floor = mlx_xpm_file_to_image(mlx, "./assets/floor.xpm", &width,&height);
+  images->exit = mlx_xpm_file_to_image(mlx, "./assets/exit.xpm", &width, &height);
+  images->player = mlx_xpm_file_to_image(mlx, "./assets/player.xpm", &width, &height);
+  images->collectible = mlx_xpm_file_to_image(mlx,"./assets/diamond.xpm",&width, &height);
   return (images);
 }
 
-void  draw_wall(t_map *map, void *mlx, void *window, t_images image)
+void  draw_wall(t_game *game)
 {
   int i;
   int j;
 
   j = 0;
   i = 0;
-  while (i < map->height)
+  while (i < game->map->height)
   {
     j = 0;
-    while (j < map->width)
+    while (j < game->map->width)
     {
-      if (map->array[i][j] == '1')
+      if (game->map->array[i][j] == '1')
       {
-        mlx_put_image_to_window(mlx, window, image.wall, j * 64 , i * 64);
+        mlx_put_image_to_window(game->mlx, game->window, game->image->wall, j * 64 , i * 64);
         j++;
       }
-      else if (map->array[i][j] == '0')
+      else if (game->map->array[i][j] == '0')
       {
-        mlx_put_image_to_window(mlx, window, image.floor, j * 64 , i * 64);
+        mlx_put_image_to_window(game->mlx, game->window, game->image->floor, j * 64 , i * 64);
         j++;
       }
-      else if (map->array[i][j] == 'C')
+      else if (game->map->array[i][j] == 'C')
       {
-        mlx_put_image_to_window(mlx,window,image.collectible, j * 64, i * 64);
+        mlx_put_image_to_window(game->mlx,game->window,game->image->collectible, j * 64, i * 64);
+        j++;
+      }
+      else if (game->map->array[i][j] == 'E')
+      {
+        mlx_put_image_to_window(game->mlx,game->window,game->image->exit, j * 64, i * 64);
+        j++;
+      }
+      else if (game->map->array[i][j] == 'P')
+      {
+        mlx_put_image_to_window(game->mlx,game->window,game->image->floor, j * 64, i * 64);
         j++;
       }
       else
