@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:07:15 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/10 19:22:25 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/11 18:58:15 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,49 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
 typedef struct s_map
 {
-	int		width;
-	int		height;
-	char	**array;
-}			t_map;
+	int			width;
+	int			height;
+	char		**array;
+}				t_map;
 
 typedef struct s_player
 {
-  int x_pos;
-  int y_pos;
-} t_player;
+	int			x_pos;
+	int			y_pos;
+}				t_player;
 
 typedef struct s_images
 {
-  void  *wall;
-  void  *player;
-  void  *floor;
-  void  *collectible;
-  void  *exit;
-} t_images;
+	void		*wall;
+  int height;
+  int width;
+	void		*player;
+	void		*floor;
+	void		*collectible;
+	void		*exit;
+}				t_images;
 
-typedef struct s_game {
-    t_map       *map;
-    t_player    *player;
-    t_images    *image;
-    int         collectibles_left;
-    void  *mlx;
-    void  *window;
-} t_game;
+typedef struct s_game
+{
+	t_map		*map;
+	t_player	*player;
+	t_images	*image;
+	int			total_collectibles;
+	int			collectibles_left;
+	void		*mlx;
+	void		*window;
+}				t_game;
 
-int		open_map();
-t_map  *store_map(t_map *map);
-void  draw_wall(t_game *game);
-t_images  *init_images_textures(void *mlx);
-t_player  *init_player(t_map *map);
+int				open_map(void);
+t_map			*store_map(t_map *map);
+void			render_textures(t_game *game);
+t_images		*init_images_textures(void *mlx);
+void			redraw_player(t_game *game, void *mlx, void *window);
+t_player		*init_player(t_map *map);
+void			move_player(t_game *game, int dx, int dy);
+t_map	*init_map(void);
+void  count_collectibles(t_game *game);
 #endif

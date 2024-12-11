@@ -6,11 +6,27 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 17:34:23 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/08 19:15:08 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/11 19:02:19 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
+
+t_map	*init_map(void)
+{
+	t_map	*map;
+
+	map = malloc(sizeof(t_map));
+	if (!map)
+	{
+		perror("failed to init map");
+		exit(1);
+	}
+	map->width = 0;
+	map->height = 0;
+	map->array = NULL;
+	return (map);
+}
 
 int	map_lines_count(int map_fd)
 {
@@ -33,7 +49,7 @@ int	open_map(void)
 {
 	int	map_fd;
 
-	map_fd = open("./assets/map1.ber", O_RDONLY);
+	map_fd = open("./assets/map2.ber", O_RDONLY);
 	if (map_fd < 0)
 	{
 		perror("error opening map file");
@@ -63,14 +79,13 @@ t_map	*store_map(t_map *map)
 			map->width = ft_strlen(map->array[i]) - 1;
 		i++;
 	}
- 	map->array[line_count] = NULL;
+	map->array[line_count] = NULL;
 	map->height = line_count;
- printf("height of map  : %d\n" , map->height);
-  printf("width of map  : %d\n" , map->width);
-  for (int e = 0; e < line_count; e++)
-    printf(" array %s" , map->array[e]);
-
- 	return (map);
+	printf("height of map  : %d\n", map->height);
+	printf("width of map  : %d\n", map->width);
+	for (int e = 0; e < line_count; e++)
+		printf(" array %s", map->array[e]);
+	return (map);
 }
 /*
   printf("height of map  : %d\n" , map->height);

@@ -6,7 +6,7 @@
 #    By: msalim <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 19:03:54 by msalim            #+#    #+#              #
-#    Updated: 2024/12/10 17:43:41 by msalim           ###   ########.fr        #
+#    Updated: 2024/12/11 19:05:24 by msalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,14 +16,17 @@ what i did :
   3. saved the map into a 2d array;
   4. translated the map into textures.
   5. player, collectible, exit textures.
+  5. player actions and movement.
+  3. norminate functions -> more than 25 lines;
+  6. cleaner code by doin a structure for game which 
+  includes all the games assets and actors (strcutures);
+  2. window dynamic size for the map, not hard-coded.
+  6. collectible action.
+  7. win condition -> exit action.
+
 
   what to do ? 
   1. check map validation.
-  2. window dynamic size for the map, not hard-coded.
-  3. norminate functions -> more than 25 lines;
-  5. player actions and movement.
-  6. collectible action.
-  7. win condition -> exit action.
   8. norminate whats left.
   9. error handle.
   10. memory leaks.
