@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:09:56 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/11 18:59:44 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/12 18:44:14 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ t_images	*init_images_textures(void *mlx)
 		return (NULL);
 	images->height = 64;
 	images->width = 64;
-	images->wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm", &images->width,
-			&images->height);
-	images->floor = mlx_xpm_file_to_image(mlx, "./assets/floor.xpm", &images->width,
-			&images->height);
-	images->exit = mlx_xpm_file_to_image(mlx, "./assets/exit.xpm", &images->width,
-			&images->height);
-	images->player = mlx_xpm_file_to_image(mlx, "./assets/player.xpm", &images->width,
-			&images->height);
+	images->wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm",
+			&images->width, &images->height);
+	images->floor = mlx_xpm_file_to_image(mlx, "./assets/floor.xpm",
+			&images->width, &images->height);
+	images->exit = mlx_xpm_file_to_image(mlx, "./assets/exit.xpm",
+			&images->width, &images->height);
+	images->player = mlx_xpm_file_to_image(mlx, "./assets/player.xpm",
+			&images->width, &images->height);
 	images->collectible = mlx_xpm_file_to_image(mlx, "./assets/diamond.xpm",
 			&images->width, &images->height);
 	return (images);

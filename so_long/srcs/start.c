@@ -6,26 +6,28 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:51:30 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/11 18:57:43 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/12 18:44:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
 
-t_game  *game_init()
+t_game	*game_init(void)
 {
-  t_game  *game;
+	t_game	*game;
 
-  game = malloc(sizeof(t_game));
-  if (!game)
-    return (NULL);
-  game->map = init_map();
+	game = malloc(sizeof(t_game));
+	if (!game)
+		return (NULL);
+	game->map = init_map();
 	store_map(game->map);
-  game->player = init_player(game->map);
-  count_collectibles(game);
-  game->mlx = mlx_init();
+	game->player = init_player(game->map);
+	count_collectibles(game);
+	game->mlx = mlx_init();
 	game->image = init_images_textures(game->mlx);
-	game->window = mlx_new_window(game->mlx, game->map->width * 64, game->map->height * 64, "so_long");
-  return (game);
+	validate_map(game);
+	game->window = mlx_new_window(game->mlx, game->map->width * 64,
+			game->map->height * 64, "so_long");
+	return (game);
 }
 
 int	handle_keypress(int keycode, t_game *game)
@@ -65,9 +67,9 @@ int	handle_close(t_game *game)
 
 int	main(void)
 {
-  t_game  *game;
+	t_game	*game;
 
-  game = game_init();
+	game = game_init();
 	render_textures(game);
 	redraw_player(game, game->mlx, game->window);
 	mlx_hook(game->window, 2, 1L << 0, handle_keypress, game);

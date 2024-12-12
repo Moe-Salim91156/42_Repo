@@ -11,7 +11,7 @@ LIBFT_A = $(LIBFT_DIR)/libft.a
 
 INCLUDE = includes
 
-src = collectible.c start.c map_parser.c load_images.c player_actions.c
+src = collectible.c validate_map.c start.c map_parser.c load_images.c player_actions.c
 SRCS = $(addprefix $(SRCS_DIR)/, $(src)) #prefix (prepend the / for the dir name
 OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o)) # same thing here 
 

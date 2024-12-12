@@ -10,29 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../includes/so_long.h"
+#include "../includes/so_long.h"
 
-void count_collectibles(t_game *game)
+void	count_collectibles(t_game *game)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 0;
-    j = 0;
-    game->total_collectibles = 0;
-    game->collectibles_left = 0;
-    i = 0;
-    while (i < game->map->height)
-    {
-        j = 0;
-        while (j < game->map->width)
-        {
-            if (game->map->array[i][j] == 'C') {
-                game->total_collectibles++;
-                game->collectibles_left++;
-            }
-            j++;
-        }
-        i++;
-    }
+	i = 0;
+	j = 0;
+	game->total_collectibles = 0;
+	game->collectibles_left = 0;
+	i = 0;
+	while (i < game->map->height)
+	{
+		j = 0;
+		while (j < game->map->width)
+		{
+			if (game->map->array[i][j] == 'C')
+			{
+				game->total_collectibles++;
+				game->collectibles_left++;
+			}
+			j++;
+		}
+		i++;
+	}
 }
