@@ -6,7 +6,7 @@
 #    By: msalim <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 19:03:54 by msalim            #+#    #+#              #
-#    Updated: 2024/12/12 18:25:49 by msalim           ###   ########.fr        #
+#    Updated: 2024/12/14 20:04:58 by msalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,19 @@ what i did :
   2. window dynamic size for the map, not hard-coded.
   6. collectible action.
   7. win condition -> exit action.
+  1. check map validation.
   // check for exit_path;
   // check for collectibles
   // check for characters in map;
+  // check for valid walls (closed);
+  // check for rectangular;
+  10. memory leaks.
 
 
   what to do ? 
-  1. check map validation.
-  // check for valid walls;
-  // check for rectangular;
   8. norminate whats left.
   9. error handle.
-  10. memory leaks.
   11. finishing up and evaluation.
+
+
+

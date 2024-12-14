@@ -6,13 +6,13 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 17:34:23 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/12 19:05:09 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/14 19:52:41 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-t_map	*init_map(void)
+t_map	*init_map(t_game *game)
 {
 	t_map	*map;
 
@@ -20,7 +20,7 @@ t_map	*init_map(void)
 	if (!map)
 	{
 		perror("failed to init map");
-		exit(1);
+		free_exit(game);
 	}
 	map->width = 0;
 	map->height = 0;
@@ -37,7 +37,7 @@ int	map_lines_count(int map_fd)
 	while (1)
 	{
 		line = get_next_line(map_fd);
-		if (!line)
+		if (line == NULL)
 			break ;
 		line_count++;
 		free(line);
@@ -49,7 +49,7 @@ int	open_map(void)
 {
 	int	map_fd;
 
-	map_fd = open("./assets/map2.ber", O_RDONLY);
+	map_fd = open("./assets/map1.ber", O_RDONLY);
 	if (map_fd < 0)
 	{
 		perror("error opening map file");
@@ -57,8 +57,7 @@ int	open_map(void)
 	}
 	return (map_fd);
 }
-
-t_map	*store_map(t_map *map)
+t_map	*store_map(t_game *game)
 {
 	int	line_count;
 	int	i;
@@ -67,25 +66,26 @@ t_map	*store_map(t_map *map)
 	i = 0;
 	map_fd = open_map();
 	line_count = map_lines_count(map_fd);
-	map->array = malloc(sizeof(char *) * (line_count + 1));
-	if (!map->array)
-		exit(1);
+	game->map->array = malloc(sizeof(char *) * (line_count + 1));
+	if (!game->map->array)
+		free_exit(game);
 	close(map_fd);
 	map_fd = open_map();
 	while (i < line_count)
 	{
-		map->array[i] = get_next_line(map_fd);
+		game->map->array[i] = get_next_line(map_fd);
 		if (i == 0)
-			map->width = ft_strlen(map->array[i]) - 1;
+			game->map->width = ft_strlen(game->map->array[i]) - 1;
 		i++;
 	}
-	map->array[line_count] = NULL;
-	map->height = line_count;
-	return (map);
+	game->map->height = line_count;
+	game->map->array[i] = NULL;
+	close(map_fd);
+	return (game->map);
 }
 /*
   printf("height of map  : %d\n" , map->height);
   printf("width of map  : %d\n" , map->width);
   for (int e = 0; e < line_count; e++)
-	printf(" array %s\n" , map->array[e]);
+		printf(" array %s\n" , map->array[e]);
 */

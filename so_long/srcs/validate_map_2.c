@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   validate_map_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 19:23:23 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/14 19:29:49 by msalim           ###   ########.fr       */
+/*   Created: 2024/12/14 18:11:05 by msalim            #+#    #+#             */
+/*   Updated: 2024/12/14 18:24:11 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-char	*ft_strdup(const char *s)
+#include "../includes/so_long.h"
+
+int	validate_rectangular(t_game *game)
 {
-	char	*dup;
-	size_t	len;
-	size_t	i;
+	int	i;
+	int	width;
 
-	i = 0;
-	len = ft_strlen(s);
-	dup = (char *)malloc(len + 1);
-	if (dup == NULL)
-		return (NULL);
-	while (i < len)
+	i = 1;
+	while (i < game->map->height)
 	{
-		dup[i] = s[i];
+		width = (int)ft_strlen(game->map->array[0]);
+		if ((int)ft_strlen(game->map->array[i]) != width)
+			return (0);
 		i++;
 	}
-	dup[len] = '\0';
-	return (dup);
+	return (1);
 }

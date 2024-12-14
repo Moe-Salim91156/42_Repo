@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 17:07:15 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/12 18:34:36 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/14 20:03:29 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,20 @@ typedef struct s_game
 	int			collectibles_left;
 	void		*mlx;
 	void		*window;
+  int moves;
 }				t_game;
 
+void			free_exit(t_game *game);
+void			free_2d_array(char **a, int h);
+int				validate_rectangular(t_game *game);
 int				open_map(void);
-t_map			*store_map(t_map *map);
+t_map			*store_map(t_game *game);
 void			render_textures(t_game *game);
-t_images		*init_images_textures(void *mlx);
+t_images		*init_images_textures(void *mlx, t_game *game);
 int				validate_map(t_game *game);
 void			redraw_player(t_game *game, void *mlx, void *window);
-t_player		*init_player(t_map *map);
+t_player		*init_player(t_game *game);
 void			move_player(t_game *game, int dx, int dy);
-t_map			*init_map(void);
+t_map			*init_map(t_game *game);
 void			count_collectibles(t_game *game);
 #endif

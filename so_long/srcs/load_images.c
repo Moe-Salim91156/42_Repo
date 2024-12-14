@@ -6,19 +6,22 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:09:56 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/12 18:44:14 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/14 16:32:45 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-t_images	*init_images_textures(void *mlx)
+t_images	*init_images_textures(void *mlx, t_game *game)
 {
 	t_images	*images;
 
 	images = malloc(sizeof(t_images));
 	if (!images)
+	{
+		free_exit(game);
 		return (NULL);
+	}
 	images->height = 64;
 	images->width = 64;
 	images->wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm",

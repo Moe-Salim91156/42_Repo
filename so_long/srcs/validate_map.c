@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:46:07 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/12 19:09:21 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/14 19:17:56 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,34 @@ int	flood_fill(char **map, int x, int y, t_map *original_map, int *collectibles)
 	return (0);
 }
 
-int	validate_map_path(t_game *game, int start_x, int start_y)
+int	validate_map_path(t_game *game)
 {
+	int		start_x;
+	int		start_y;
 	char	**cloned_map;
 	int		collectible;
 	int		i;
 
+	start_x = game->player->x_pos;
+	start_y = game->player->y_pos;
 	collectible = game->total_collectibles;
 	game->map->has_exit_path = 0;
 	cloned_map = malloc(sizeof(char *) * game->map->height);
+	if (!cloned_map)
+		return (0);
 	i = 0;
 	while (i < game->map->height)
 	{
 		cloned_map[i] = ft_strdup(game->map->array[i]);
+		if (!cloned_map[i])
+		{
+			free_2d_array(cloned_map, i);
+			return (0);
+		}
 		i++;
 	}
 	flood_fill(cloned_map, start_x, start_y, game->map, &collectible);
-	// free_cloned map
+	free_2d_array(cloned_map, game->map->height);
 	if (collectible == 0 && game->map->has_exit_path)
 		return (1);
 	return (0);
@@ -76,45 +87,55 @@ int	validate_map_content(t_game *game)
 	return (1);
 }
 
-int validate_rectangular(t_game *game)
+int	validate_closed(t_game *game)
 {
-  if (game->map->array[0])
-  {
-    printf("has walls correctly ");
-    return (1);
-  }
-  return (0);
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (game->map->array[0][i] != '\n' && game->map->array[game->map->height
+		- 1][j] != '\n')
+	{
+		if (game->map->array[0][i] != '1')
+			return (0);
+		if (game->map->array[game->map->height - 1][j] != '1')
+			return (0);
+		j++;
+		i++;
+	}
+	i = 0;
+	while (i < game->map->height)
+	{
+		if (game->map->array[i][0] != '1'
+			|| game->map->array[i][game->map->width - 1] != '1')
+			return (0);
+		i++;
+	}
+	return (1);
 }
+
 int	validate_map(t_game *game)
 {
-	int	start_x;
-	int	start_y;
-
-	start_x = game->player->x_pos;
-	start_y = game->player->y_pos;
-	if (!validate_map_path(game, start_x, start_y))
+	if (!validate_map_path(game))
 	{
-		ft_putstr_fd("Error: No valid path to exit\n", 2);
-		// free
-		exit(1);
+		ft_putstr_fd("Error\n : No valid path to exit\n", 2);
+		free_exit(game);
 	}
 	if (game->total_collectibles == 0)
 	{
-		ft_putstr_fd("no collectibles", 2);
-		// free
-		exit(1);
+		ft_putstr_fd("Error\n : no collectibles", 2);
+		free_exit(game);
 	}
 	if (validate_map_content(game) == 0) // invalid char
 	{
-		ft_putstr_fd("invalid character in map\n", 2);
-		// free
-		exit(1);
+		ft_putstr_fd("Error\n : invalid character in map\n", 2);
+		free_exit(game);
 	}
-  if (validate_rectangular(game) == 0)
-  {
-    ft_putstr_fd("walls invalid",2);
-    //free;
-    exit(1);
-  }
+	if (validate_closed(game) == 0)
+	{
+		ft_putstr_fd("Error\n : walls invalid\n", 2);
+		free_exit(game);
+	}
 	return (1);
 }
