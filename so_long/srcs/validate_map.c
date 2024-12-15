@@ -6,57 +6,51 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:46:07 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/14 19:17:56 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:08:00 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long.h"
 
-int	flood_fill(char **map, int x, int y, t_map *original_map, int *collectibles)
+int	validate_rectangular(t_game *game)
 {
-	if (x < 0 || y < 0 || x >= original_map->width || y >= original_map->height)
-		return (0);
-	if (map[y][x] == '1' || map[y][x] == 'V')
-		return (0);
-	if (map[y][x] == 'C')
-		(*collectibles)--;
-	if (map[y][x] == 'E')
-		original_map->has_exit_path = 1;
-	map[y][x] = 'V';
-	flood_fill(map, x + 1, y, original_map, collectibles);
-	flood_fill(map, x - 1, y, original_map, collectibles);
-	flood_fill(map, x, y + 1, original_map, collectibles);
-	flood_fill(map, x, y - 1, original_map, collectibles);
-	return (0);
+	int	i;
+	int	width;
+
+	i = 1;
+	while (i < game->map->height)
+	{
+		width = (int)ft_strlen(game->map->array[0]);
+		if ((int)ft_strlen(game->map->array[i]) != width)
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	validate_map_path(t_game *game)
 {
-	int		start_x;
-	int		start_y;
-	char	**cloned_map;
-	int		collectible;
-	int		i;
+	int				start_x;
+	int				start_y;
+	char			**cloned_map;
+	int				collectible;
+	t_flood_fill	*flood_data;
 
 	start_x = game->player->x_pos;
 	start_y = game->player->y_pos;
 	collectible = game->total_collectibles;
-	game->map->has_exit_path = 0;
-	cloned_map = malloc(sizeof(char *) * game->map->height);
+	cloned_map = clone_map(game->map->array, game->map->height);
 	if (!cloned_map)
-		return (0);
-	i = 0;
-	while (i < game->map->height)
 	{
-		cloned_map[i] = ft_strdup(game->map->array[i]);
-		if (!cloned_map[i])
-		{
-			free_2d_array(cloned_map, i);
-			return (0);
-		}
-		i++;
+		return (0);
 	}
-	flood_fill(cloned_map, start_x, start_y, game->map, &collectible);
+	flood_data = init_flood(cloned_map, game->map, &collectible);
+	if (!flood_data)
+	{
+		return (0);
+	}
+	flood_fill(start_x, start_y, flood_data);
+	free(flood_data);
 	free_2d_array(cloned_map, game->map->height);
 	if (collectible == 0 && game->map->has_exit_path)
 		return (1);
@@ -117,19 +111,20 @@ int	validate_closed(t_game *game)
 
 int	validate_map(t_game *game)
 {
-	if (!validate_map_path(game))
+	if (!validate_map_path(game) || !validate_rectangular(game))
 	{
-		ft_putstr_fd("Error\n : No valid path to exit\n", 2);
+		ft_putstr_fd("Error\n : invalid path : no exit or not rectangular\n",
+			2);
 		free_exit(game);
 	}
 	if (game->total_collectibles == 0)
 	{
-		ft_putstr_fd("Error\n : no collectibles", 2);
+		ft_putstr_fd("Error\n : no collectibles\n", 2);
 		free_exit(game);
 	}
-	if (validate_map_content(game) == 0) // invalid char
+	if (validate_map_content(game) == 0 || game->player_pos_count != 1)
 	{
-		ft_putstr_fd("Error\n : invalid character in map\n", 2);
+		ft_putstr_fd("Error\n : invalid character/player_pos_count in map\n", 2);
 		free_exit(game);
 	}
 	if (validate_closed(game) == 0)

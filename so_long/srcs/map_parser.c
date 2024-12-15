@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 17:34:23 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/14 19:52:41 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:09:41 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_map	*init_map(t_game *game)
 	}
 	map->width = 0;
 	map->height = 0;
+	map->has_exit_path = 0;
 	map->array = NULL;
 	return (map);
 }
@@ -45,32 +46,35 @@ int	map_lines_count(int map_fd)
 	return (line_count);
 }
 
-int	open_map(void)
+int	open_map(char **av, t_game *game)
 {
 	int	map_fd;
 
-	map_fd = open("./assets/map1.ber", O_RDONLY);
+	map_fd = open(av[1], O_RDONLY);
 	if (map_fd < 0)
 	{
 		perror("error opening map file");
+		free(game->map);
+		free(game);
 		exit(1);
 	}
 	return (map_fd);
 }
-t_map	*store_map(t_game *game)
+
+t_map	*store_map(t_game *game, char **av)
 {
 	int	line_count;
 	int	i;
 	int	map_fd;
 
 	i = 0;
-	map_fd = open_map();
+	map_fd = open_map(av, game);
 	line_count = map_lines_count(map_fd);
 	game->map->array = malloc(sizeof(char *) * (line_count + 1));
 	if (!game->map->array)
 		free_exit(game);
 	close(map_fd);
-	map_fd = open_map();
+	map_fd = open_map(av, game);
 	while (i < line_count)
 	{
 		game->map->array[i] = get_next_line(map_fd);
@@ -83,6 +87,7 @@ t_map	*store_map(t_game *game)
 	close(map_fd);
 	return (game->map);
 }
+
 /*
   printf("height of map  : %d\n" , map->height);
   printf("width of map  : %d\n" , map->width);

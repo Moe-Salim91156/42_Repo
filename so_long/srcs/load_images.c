@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 19:09:56 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/14 16:32:45 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:44:51 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ t_images	*init_images_textures(void *mlx, t_game *game)
 
 	images = malloc(sizeof(t_images));
 	if (!images)
-	{
-		free_exit(game);
-		return (NULL);
-	}
+    free_exit(game);
 	images->height = 64;
 	images->width = 64;
 	images->wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm",

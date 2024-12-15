@@ -6,7 +6,7 @@
 #    By: msalim <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/09 19:03:54 by msalim            #+#    #+#              #
-#    Updated: 2024/12/14 20:04:58 by msalim           ###   ########.fr        #
+#    Updated: 2024/12/15 16:53:09 by msalim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,11 @@ what i did :
   // check for valid walls (closed);
   // check for rectangular;
   10. memory leaks.
-
+  11. moves counter.
+  8. norminate whats left.
 
   what to do ? 
-  8. norminate whats left.
-  9. error handle.
+  9. error handle/argc argv;
   11. finishing up and evaluation.
 
 

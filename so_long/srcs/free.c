@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 15:09:44 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/14 19:50:20 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/15 17:14:50 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_map(t_game *game)
 			i++;
 		}
 		free(game->map->array);
-    free(game->map);
+		free(game->map);
 	}
 }
 
@@ -68,21 +68,23 @@ void	free_exit(t_game *game)
 {
 	if (game)
 	{
-		free_images(game);
-		free(game->image);
+		if (game->image)
+		{
+			free_images(game);
+			free(game->image);
+		}
+		if (game->window)
+			mlx_destroy_window(game->mlx, game->window);
+		if (game->mlx)
+		{
+			mlx_destroy_display(game->mlx);
+			free(game->mlx);
+		}
+		if (game->player)
+			free(game->player);
+		if (game->map)
+			free_map(game);
+		free(game);
 	}
-	if (game->window)
-		mlx_destroy_window(game->mlx, game->window);
-	if (game->mlx)
-  {
-		mlx_destroy_display(game->mlx); // Needed if mlx is initialized.
-    free(game->mlx);
-  }
-	if (game->player)
-		free(game->player);
-	if (game->map)
-		free_map(game);
-	free(game);
-	write(1, "Game freed\n", 11);
-  exit(1);
+	exit(1);
 }

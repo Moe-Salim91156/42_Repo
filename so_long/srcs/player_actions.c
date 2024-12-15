@@ -6,28 +6,28 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:49:24 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/14 20:03:21 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:07:16 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/so_long.h"
 
-static void	get_player_position(t_map *map, t_player *player)
+static void	get_player_position(t_game *game, t_player *player)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (i < map->height)
+	while (i < game->map->height)
 	{
 		j = 0;
-		while (j < map->width)
+		while (j < game->map->width)
 		{
-			if (map->array[i][j] == 'P')
+			if (game->map->array[i][j] == 'P')
 			{
+        game->player_pos_count++;
 				player->x_pos = j;
 				player->y_pos = i;
-				return ;
 			}
 			j++;
 		}
@@ -45,12 +45,7 @@ t_player	*init_player(t_game *game)
 		perror("error allocating memory for player");
 		free_exit(game);
 	}
-	get_player_position(game->map, player);
-	if (!player)
-	{
-		perror("error player init");
-		free_exit(game);
-	}
+	get_player_position(game, player);
 	return (player);
 }
 
@@ -75,6 +70,9 @@ void	move_player(t_game *game, int dx, int dy)
 			if (game->collectibles_left == 0)
 				free_exit(game);
 		}
+		game->moves++;
 		redraw_player(game, game->mlx, game->window);
+		ft_putnbr_fd(game->moves, 1);
+		write(1, "\n", 1);
 	}
 }
