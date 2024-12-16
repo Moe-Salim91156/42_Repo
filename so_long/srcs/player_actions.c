@@ -25,7 +25,7 @@ static void	get_player_position(t_game *game, t_player *player)
 		{
 			if (game->map->array[i][j] == 'P')
 			{
-        game->player_pos_count++;
+				game->player_pos_count++;
 				player->x_pos = j;
 				player->y_pos = i;
 			}

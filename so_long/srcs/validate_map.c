@@ -124,7 +124,8 @@ int	validate_map(t_game *game)
 	}
 	if (validate_map_content(game) == 0 || game->player_pos_count != 1)
 	{
-		ft_putstr_fd("Error\n : invalid character/player_pos_count in map\n", 2);
+		ft_putstr_fd("Error\n : invalid character/player_pos_count in map\n",
+			2);
 		free_exit(game);
 	}
 	if (validate_closed(game) == 0)

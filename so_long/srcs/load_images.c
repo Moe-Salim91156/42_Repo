@@ -18,7 +18,7 @@ t_images	*init_images_textures(void *mlx, t_game *game)
 
 	images = malloc(sizeof(t_images));
 	if (!images)
-    free_exit(game);
+		free_exit(game);
 	images->height = 64;
 	images->width = 64;
 	images->wall = mlx_xpm_file_to_image(mlx, "./assets/wall64.xpm",

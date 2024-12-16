@@ -50,7 +50,7 @@ typedef struct s_game
 	t_map		*map;
 	t_player	*player;
 	t_images	*image;
-  int     player_pos_count;
+	int			player_pos_count;
 	int			total_collectibles;
 	int			collectibles_left;
 	void		*mlx;
