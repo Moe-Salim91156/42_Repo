@@ -18,13 +18,14 @@ OBJS = $(addprefix $(OBJS_DIR)/, $(src:.c=.o)) # same thing here
 NAME = so_long
 
 
-all : $(LIBFT_A) $(NAME)
+all : $(NAME)
 
-$(LIBFT_A):
-	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME) : $(OBJS) $(LIBFT_A)
 	$(CC) $(CFLAGS) -I $(INCLUDE) $(OBJS) $(LIBFT_A) $(MFLAGS) -o $(NAME)
+
+$(LIBFT_A):
+	make -C $(LIBFT_DIR) all
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c | $(OBJS_DIR) #( "|" means only if it exits , ensuring it exists (order))
 	$(CC) $(CFLAGS) -I $(INCLUDE) -c $< -o $@
