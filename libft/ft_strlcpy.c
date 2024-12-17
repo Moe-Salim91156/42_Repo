@@ -9,8 +9,8 @@
 /*   Updated: 2024/08/27 17:16:13 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	<string.h>
-#include	<stdio.h>
+#include <stdio.h>
+#include <string.h>
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -33,13 +33,13 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 }
 /*int main(void)
 {
-    char src[] = "Hello, World!";
-    char dst[11];
+	char src[] = "Hello, World!";
+	char dst[11];
 
-    size_t len = ft_strlcpy(dst, src, sizeof(dst));
+	size_t len = ft_strlcpy(dst, src, sizeof(dst));
 
-    printf("Destination: %s\n", dst);
-    printf("Source length: %zu\n", len)
+	printf("Destination: %s\n", dst);
+	printf("Source length: %zu\n", len)
 
-    return 0;
+	return (0);
 }*/

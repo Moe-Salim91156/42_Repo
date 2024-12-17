@@ -6,11 +6,12 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 15:44:19 by msalim            #+#    #+#             */
-/*   Updated: 2024/09/07 19:05:39 by msalim           ###   ########.fr       */
+/*   Updated: 2024/08/27 13:51:02 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	<unistd.h>
-#include	"libft.h"
+#include "libft.h"
+#include <stdio.h>
+#include <unistd.h>
 
 size_t	ft_strlen(const char *str)
 {

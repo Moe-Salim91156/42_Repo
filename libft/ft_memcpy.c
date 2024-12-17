@@ -9,10 +9,10 @@
 /*   Updated: 2024/09/02 16:13:20 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	<string.h>
-#include	<stddef.h>
-#include	<stdio.h>
-#include	"libft.h"
+#include "libft.h"
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
@@ -21,19 +21,19 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 
 	if (!dest && !src)
 		return (dest);
-	des = (unsigned char *) dest;
-	sr = (const unsigned char *) src;
+	des = (unsigned char *)dest;
+	sr = (const unsigned char *)src;
 	while (n--)
 		*des++ = *sr++;
 	return (dest);
 }
 /*int main(void) {
-    char src[] = "";
-    char dest[50]; // Declare dest as a character array
+	char src[] = "";
+	char dest[50]; // Declare dest as a character array
 
-    ft_memcpy(dest, src, sizeof(src)); // Copy src into dest
+	ft_memcpy(dest, src, sizeof(src)); // Copy src into dest
 
-    printf("dest is: %s\n", dest); // Print the content of dest
+	printf("dest is: %s\n", dest); // Print the content of dest
 
-    return 0;
+	return (0);
 }*/

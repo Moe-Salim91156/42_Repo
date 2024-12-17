@@ -9,8 +9,8 @@
 /*   Updated: 2024/09/01 15:56:50 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	"libft.h"
-#include	<stdio.h>
+#include "libft.h"
+#include <stdio.h>
 
 static int	ft_strncmp1(const char *s1, const char *s2, size_t n)
 {

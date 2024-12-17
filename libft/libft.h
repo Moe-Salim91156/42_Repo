@@ -6,18 +6,24 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 17:47:44 by msalim            #+#    #+#             */
-/*   Updated: 2024/09/03 18:38:35 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/03 19:13:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 # define LIBFT_H
+# include <fcntl.h>
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 
+char				*get_next_line(int fd);
+char				*ft_strcpy(char *dest, const char *src);
 int					ft_isalpha(int c);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_isdigit(int c);

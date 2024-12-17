@@ -9,9 +9,9 @@
 /*   Updated: 2024/08/27 13:49:33 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	<stdio.h>
-#include	<unistd.h>
-#include	"libft.h"
+#include "libft.h"
+#include <stdio.h>
+#include <unistd.h>
 
 int	ft_isascii(int c)
 {

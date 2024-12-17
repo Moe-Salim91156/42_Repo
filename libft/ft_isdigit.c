@@ -9,12 +9,12 @@
 /*   Updated: 2024/08/27 13:49:45 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	<unistd.h>
+#include <unistd.h>
 /*
-#include	<stdio.h>
-#include	<ctype.h>
+#include <ctype.h>
+#include <stdio.h>
 */
-#include	"libft.h"
+#include "libft.h"
 
 int	ft_isdigit(int c)
 {
