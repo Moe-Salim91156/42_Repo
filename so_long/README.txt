@@ -32,10 +32,10 @@ what i did :
   10. memory leaks.
   11. moves counter.
   8. norminate whats left.
-
-  what to do ? 
   9. error handle/argc argv;
   11. finishing up and evaluation.
 
+  what to do ? 
+-----------------------
 
 
