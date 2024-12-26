@@ -23,14 +23,13 @@ A 2D game implemented in C using the MiniLibX library. This project includes pat
 An algorithmic project to sort data using two stacks with minimal operations, demonstrating my understanding of algorithm efficiency and complexity.  
 
 ### **philosophers**  
-A simulation of the dining philosophers problem, focusing on multi-threading, synchronization, and avoiding deadlocks.  
-
+Currently working on this project which is kinda the same as the dining philosophers problem.
 ## Skills Demonstrated  
-- Proficiency in C programming  
-- Memory management and debugging  
-- Multi-threading and synchronization  
-- Adherence to the 42 norminette coding standard  
-- Low-level programming and algorithm design  
+- Proficiency in C programming.
+- Debugging and Root cause analysis.
+- Memory management.
+- Adherence to the 42 norminette coding standards.  
+- Low-level programming and algorithm design.
 
 ## How to Use  
 Clone the repository:  
@@ -40,5 +39,5 @@ git clone https://github.com/Moe-Salim91156/42_Repo.git
 Navigate to a project directory and follow the `Makefile` instructions to compile and run.  
 
 ## About Me  
-I’m a passionate programmer and problem-solver currently enrolled in the 42 curriculum. Check out my [LinkedIn](https://www.linkedin.com/in/your-profile) or [personal website](https://your-website.com) for more about my work.  
+I’m a passionate programmer and problem-solver currently enrolled in the 42 curriculum. Check out my [LinkedIn](www.linkedin.com/in/mohammad-salim-4142432a0)
 -----
