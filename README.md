@@ -39,5 +39,5 @@ git clone https://github.com/Moe-Salim91156/42_Repo.git
 Navigate to a project directory and follow the `Makefile` instructions to compile and run.  
 
 ## About Me  
-I’m a passionate programmer and problem-solver currently enrolled in the 42 curriculum. Check out my [LinkedIn](www.linkedin.com/in/mohammad-salim-4142432a0)
+I’m a passionate programmer and problem-solver currently enrolled in the 42 curriculum. Check out my [LinkedIn](https://www.linkedin.com/in/mohammad-salim-4142432a0/)
 -----
