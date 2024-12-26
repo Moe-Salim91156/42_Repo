@@ -1,8 +1,4 @@
-Here’s a README for your GitHub repository:  
-
----
-
-# 42 Repo  
+# My Personal 42 Repo  
 
 This repository contains my projects from the 42 programming curriculum. Each project demonstrates my growth in software development, algorithm design, and problem-solving, adhering to the rigorous coding standards of 42.  
 
@@ -45,7 +41,4 @@ Navigate to a project directory and follow the `Makefile` instructions to compil
 
 ## About Me  
 I’m a passionate programmer and problem-solver currently enrolled in the 42 curriculum. Check out my [LinkedIn](https://www.linkedin.com/in/your-profile) or [personal website](https://your-website.com) for more about my work.  
-
---- 
-
-Feel free to update the placeholders for links or add more sections as needed!
+-----
