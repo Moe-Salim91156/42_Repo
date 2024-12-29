@@ -1,0 +1,33 @@
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Requirements : 
+  1. understand how threads work and its related concepts.
+  2. what is the difference between a process and a thread.
+  3. understand the philo problem. 
+  4. understand the metaphor behind philo problem
+      1. what does the philo represent -> thread.
+      2. what does the fork represent -> shared resource.
+      //
+  5. know what and why to use the allowed functions.
+  6. come up with the architecture for this problem and the flow of the solution.
+  7. begin doing the parts of the architecture.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Design: 
+  1. flowchart for the problem;
+  2. data flow (optional);
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+implementation:
+  1. Makefile with appropriate file structure.
+  2. deep dive and tinker with the allowed functions.
+    1. make threads.
+    2. make a shared resource.
+    3. make the threads access the shared resource/s.
+    4. understand the different edge cases or scenarions like deadlock and data races.
+    5. understand the mutex and how can it prevent such edge cases.
+  3. begin coding!.
