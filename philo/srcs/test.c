@@ -6,14 +6,16 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:30:34 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/29 16:41:52 by msalim           ###   ########.fr       */
+/*   Updated: 2024/12/30 20:07:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../includes/philo.h"
 
-int main(void)
+
+int main(int ac, char **av)
 {
-  printf("im wroking");
+  int num_of_philos = atoi(av[1]);
+  
   return 0;
 }

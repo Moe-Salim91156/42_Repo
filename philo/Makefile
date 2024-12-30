@@ -7,7 +7,7 @@ obj_dir = objs
 
 INCLUDE = includes
 
-src = test.c
+src = init.c test.c
 
 SRCS = $(addprefix $(src_dir)/, $(src))
 OBJS = $(addprefix $(obj_dir)/, $(src:.c=.o))

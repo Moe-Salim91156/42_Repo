@@ -22,12 +22,25 @@ Design:
 
 --------------------------------------------------------------------------------------------------------------------------------------
 
-implementation:
-  1. Makefile with appropriate file structure.
-  2. deep dive and tinker with the allowed functions.
-    1. make threads.
-    2. make a shared resource.
-    3. make the threads access the shared resource/s.
-    4. understand the different edge cases or scenarions like deadlock and data races.
-    5. understand the mutex and how can it prevent such edge cases.
-  3. begin coding!.
+Implementation
+  1. Makefile with appropriate file structure:
+  Organize your files into source files (philosophers.c), header files (philosophers.h), and a Makefile that compiles everything and runs the program.
+
+  2. Deep dive and tinker with the allowed functions:
+  Threads: Use pthread_create to create threads and pthread_join to wait for them to finish.
+  Mutexes: Use pthread_mutex_t to define mutexes for shared resources (the forks). You’ll use pthread_mutex_lock and pthread_mutex_unlock to control access to these resources.
+  Sleep and Timeouts: Use usleep to simulate thinking and eating times. You may also use pthread_cond_t to implement timeouts or retries.
+
+  3. Thread and Shared Resource Design:
+  Thread Function: Each philosopher is a thread. Each philosopher needs access to two mutexes (forks). The threads will attempt to lock these mutexes in a safe order to avoid deadlock.
+  Shared Resources: Each fork is a shared resource protected by a mutex. Only one philosopher can use a fork at a time.
+
+  4. Edge Cases and Scenarios:
+  Deadlock: If every philosopher picks up one fork and waits for the other, none can proceed. To avoid this, you could either impose a strict order on which fork to pick up first or use a timeout for retrying.
+  Starvation: Some philosophers might be stuck waiting for forks while others eat. This can be addressed by ensuring fair access to resources (e.g., by using a semaphore or limiting the number of philosophers trying to pick up forks at the same time).
+
+  5. Mutexes: Mutexes are key to preventing race conditions and deadlock. They ensure that only one philosopher can use a fork at a time.
+
+
+
+
