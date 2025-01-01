@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:12:25 by msalim            #+#    #+#             */
-/*   Updated: 2024/12/30 20:06:20 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/01 18:23:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,19 @@
 
 t_philo *init_philo(int num_of_philos)
 {
+  int i;
   t_philo *philo;
 
+  i = 0;
   philo = malloc(sizeof(t_philo) * num_of_philos);
-  philo->id = 0;
-  philo->state = NULL;
+  while (i < num_of_philos)
+  {
+    philo[i].id = i;
+    //philo[i].state= NULL;
+    philo[i].left_fork = NULL;
+    philo[i].right_fork = NULL;
+    i++;
+  }
   return (philo);
 }
 
@@ -42,10 +50,9 @@ pthread_mutex_t  *init_forks(int num_of_philos)
   return (forks);
 }
 
-void  create_philos(char **av, t_philo *philo, pthread_mutex_t *forks)
+void  create_philos(int num_of_philos, t_philo *philo, pthread_mutex_t *forks)
 {
   int i = 0;
-  int num_of_philos = atoi(av[1]);
 
   while (i < num_of_philos)
   {

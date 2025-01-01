@@ -22,7 +22,46 @@ Design:
 
 --------------------------------------------------------------------------------------------------------------------------------------
 
-Implementation
+the flow of the program : 
+
+  - what i did: 
+      0. create threads for each philo.
+      5. implement lifecycles for the philos.
+        1. thinking;
+        2. eating;
+        3. sleeping.
+      6. start the cycle;
+      7. repsect the values and the logic (time_to_die, etc.. );
+        1. if philo hadnt eat, die, stop cycle;
+        2. ...
+
+  - what to do:
+    - init philos;
+      1. create a struct for the philo.
+      2. create an array of philosohpers structs based on their number;
+      3. assign to each philo his id , left fork, right fork last meal time, maybe time to die, whatever attributes necessary;
+      4. ofcourse create first the forks, and initialize their mutexes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Notes from Gpt: 
+
   1. Makefile with appropriate file structure:
   Organize your files into source files (philosophers.c), header files (philosophers.h), and a Makefile that compiles everything and runs the program.
 
@@ -42,5 +81,21 @@ Implementation
   5. Mutexes: Mutexes are key to preventing race conditions and deadlock. They ensure that only one philosopher can use a fork at a time.
 
 
+  What to Do Next
+
+    Implement Thread Logic:
+        Create threads for each philosopher and associate the ft_philosopher function with each thread.
+        Pass the corresponding t_philo structure as an argument to the thread function.
+
+    Simulate Actions:
+        Implement the logic for philosophers to pick up forks, eat, think, and put down forks.
+
+    Handle Deadlocks:
+        Introduce mechanisms to prevent deadlock, such as:
+            Picking up forks in a specific order.
+            Using a monitor thread to detect and resolve deadlocks.
+
+    Memory Cleanup:
+        Ensure all allocated memory (philosophers and forks) is freed, and all mutexes are destroyed before the program exits.
 
 
