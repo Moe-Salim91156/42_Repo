@@ -24,9 +24,9 @@ Design:
 
 the flow of the program : 
 
-  - what i did: 
-      0. create threads for each philo.
+  - what to do: 
       5. implement lifecycles for the philos.
+        0. recieve args from main and do the cycle(ttd,tts,n,optional note)
         1. thinking;
         2. eating;
         3. sleeping.
@@ -35,12 +35,13 @@ the flow of the program :
         1. if philo hadnt eat, die, stop cycle;
         2. ...
 
-  - what to do:
+  - what i did:
     - init philos;
       1. create a struct for the philo.
       2. create an array of philosohpers structs based on their number;
       3. assign to each philo his id , left fork, right fork last meal time, maybe time to die, whatever attributes necessary;
       4. ofcourse create first the forks, and initialize their mutexes.
+      0. create threads for each philo.
 
 
 

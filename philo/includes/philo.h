@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/01 19:31:32 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/01 20:06:43 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct  s_philo
   pthread_mutex_t *right_fork;
 } t_philo;
 
+void *philo_lifecycle(void *arg) ;
 t_philo *init_philo(int nu);
 pthread_mutex_t *init_forks(int num);
 void  create_philos(int num, t_philo *philo, pthread_mutex_t *forks);

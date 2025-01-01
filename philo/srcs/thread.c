@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:23:44 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/01 19:30:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/01 20:03:54 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,42 @@
 //        the buffer pointed to by thread;
 //        this identifier is used to refer to the  thread  in  subsequent  calls  to
 //        other pthreads functions.
-
-void *philo_lifecycle(void *arg)
-{
+void *philo_lifecycle(void *arg) {
     t_philo *philo = (t_philo *)arg;
-
+    
     while (1) {
         // THINKING
         printf("Philosopher %d is thinking.\n", philo->id);
-        usleep(rand() % 1000000);  // Random thinking time
-
+        usleep(100);  // Random thinking time
+        
         // PICK LEFT FORK
         printf("Philosopher %d is trying to pick up left fork.\n", philo->id);
         pthread_mutex_lock(philo->left_fork);
         printf("Philosopher %d picked up left fork.\n", philo->id);
-
+        
         // PICK RIGHT FORK
         printf("Philosopher %d is trying to pick up right fork.\n", philo->id);
         pthread_mutex_lock(philo->right_fork);
         printf("Philosopher %d picked up right fork.\n", philo->id);
-
+        
         // EATING
         printf("Philosopher %d is eating.\n", philo->id);
-        usleep(rand() % 1000000);  // Random eating time
-
+        usleep(1000000);  // Random eating time
+        
         // PUT DOWN RIGHT FORK
         pthread_mutex_unlock(philo->right_fork);
         printf("Philosopher %d put down right fork.\n", philo->id);
-
+        
         // PUT DOWN LEFT FORK
         pthread_mutex_unlock(philo->left_fork);
         printf("Philosopher %d put down left fork.\n", philo->id);
-
+        
         // SLEEPING
         printf("Philosopher %d is sleeping.\n", philo->id);
-        usleep(rand() % 1000000);  // Random sleeping time
+        usleep(1000000);  // Random sleeping time
     }
-
     return NULL;
 }
-
 void  create_thread_philo(int num_of_philos, t_philo *philo)
 {
   //create a thread for each philo
