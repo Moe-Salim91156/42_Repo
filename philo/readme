@@ -25,23 +25,32 @@ Design:
 the flow of the program : 
 
   - what to do: 
-      5. implement lifecycles for the philos.
-        0. recieve args from main and do the cycle(ttd,tts,n,optional note)
-        1. thinking;
-        2. eating;
-        3. sleeping.
-      6. start the cycle;
-      7. repsect the values and the logic (time_to_die, etc.. );
-        1. if philo hadnt eat, die, stop cycle;
-        2. ...
-
+  1. how to exit without using exit();
+  1.ensure each case is working properly; 
+  2. implement monitor philosohpher for that.
+  3. look for data races, (locks forgottein case of death and alive, etc..); --> implement write instead of printf
+  4. deadlocks cases.
+  5. memory leaks.
+  6. error handle;
+  7. usleep function maybe;
+  8. norminette all more than 25 lines;
+--------------------------------------------------
   - what i did:
-    - init philos;
+    7.norminette eating and states , whats left is threads function.
+    7. repsect the values and the logic (time_to_die, etc.. );
+    6. start the cycle;
+    3. sleeping.
+    2. eating;
+    1. thinking;
+    0. recieve args from main and do the cycle(ttd,tts,n,optional note)
+    5. implement lifecycles for the philos.
+      - init philos;
       1. create a struct for the philo.
       2. create an array of philosohpers structs based on their number;
       3. assign to each philo his id , left fork, right fork last meal time, maybe time to die, whatever attributes necessary;
       4. ofcourse create first the forks, and initialize their mutexes.
       0. create threads for each philo.
+
 
 
 

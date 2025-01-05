@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:43:13 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/02 19:42:13 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/05 18:48:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,15 @@ int	main(int argc, char **argv)
 	int				num_of_philos;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
+	t_input_args	args;
 
-	if (argc != 5 || (num_of_philos = atoi(argv[1])) <= 1)
-	{
-		printf("Usage: %s [number_of_philosophers]\n", argv[0]);
-		return (EXIT_FAILURE);
-	}
-	// Initialize resources
-	philo = init_philo(num_of_philos,argv);
+	num_of_philos = atoi(argv[1]);
+  philo = malloc(sizeof(t_philo) * num_of_philos);
+	printf("%dac\n", argc);
+	args.ac = argc;
+	args.av = argv;
 	forks = init_forks(num_of_philos);
-	create_philos(num_of_philos, philo, forks);
+	create_philos(num_of_philos, philo, forks, args);
 	create_thread_philo(forks, philo, num_of_philos);
 	return (EXIT_SUCCESS);
 }
