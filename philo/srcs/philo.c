@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 17:43:13 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/05 18:48:10 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/06 14:47:25 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int	main(int argc, char **argv)
 	t_input_args	args;
 
 	num_of_philos = atoi(argv[1]);
-  philo = malloc(sizeof(t_philo) * num_of_philos);
-	printf("%dac\n", argc);
+	philo = malloc(sizeof(t_philo) * num_of_philos);
+	if (!philo)
+		return (0);
 	args.ac = argc;
 	args.av = argv;
 	forks = init_forks(num_of_philos);

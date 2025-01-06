@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/05 17:36:08 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/06 17:55:12 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+typedef struct s_simulation
+{
+  pthread_mutex_t *sim_end_mutex;
+  int simulation_stop_flag;
+} t_simulation;
 typedef struct s_philo
 {
 	int				id;
@@ -26,20 +31,26 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*printf_mutex;
-	long			last_meal;
+	pthread_mutex_t	*end_mutex;
+  t_simulation *sim;
+  long			last_meal;
 	long			sleep_time;
 	long			eating_time;
 	long			thinking;
 	long			time_to_die;
 	long			proper_meals;
 	long			meals_eaten;
+  int stop_flag;
 }					t_philo;
 
 typedef struct s_thread_args
 {
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	*sim_end;
 	int				num_of_philos;
+  t_simulation simulation;
 	t_philo			*philo;
+
 }					t_thread_args;
 
 typedef struct s_input_args
@@ -48,8 +59,11 @@ typedef struct s_input_args
 	char			**av;
 }					t_input_args;
 
+pthread_mutex_t		*init_simu_mutex(void);
 void				*philo_lifecycle(void *args);
+int					proper_meals_reached(t_philo *philo, int e);
 t_philo				*init_philo(int nu, t_input_args args);
+t_simulation *init_simulation(void);
 pthread_mutex_t		*init_forks(int num);
 void				create_philos(int num, t_philo *philo,
 						pthread_mutex_t *forks, t_input_args args);
@@ -57,9 +71,9 @@ void				create_thread_philo(pthread_mutex_t *forks, t_philo *philo,
 						int num_of_philos);
 int					eating(int num_of_philos, pthread_mutex_t *forks,
 						t_philo *philo);
-void				think(t_philo *philo);
+int				think(t_philo *philo);
 long				get_timestamp(void);
-void				sleep_philo(t_philo *philo);
+int				sleep_philo(t_philo *philo);
 int					odd_philo_logic(int num_of_philos, pthread_mutex_t *forks,
 						t_philo *philo, long times);
 int					even_philo_logic(int num_of_philos, pthread_mutex_t *forks,
@@ -68,8 +82,9 @@ int					general_eating_logic(int num_of_philos,
 						pthread_mutex_t *forks, t_philo *philo, long times);
 int					has_philo_died(t_philo *philo);
 void				join_threads(pthread_t *threads, int num_of_philos);
-void ft_putlong_fd(long n, int fd);
-void	ft_putnbr_fd(int n, int fd);
-void  ft_putstr_fd(char *s, int fd);
-void print_logs(long time, t_philo *philo, char *message);
+void				ft_putlong_fd(long n, int fd);
+void				ft_putnbr_fd(int n, int fd);
+void				ft_putstr_fd(char *s, int fd);
+void				print_logs(long time, t_philo *philo, char *message);
+int	has_philo_died(t_philo *philo);
 #endif

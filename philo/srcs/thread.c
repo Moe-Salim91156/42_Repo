@@ -6,11 +6,48 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/01 18:23:44 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/05 18:39:12 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/06 18:16:09 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+/*
+int	check_simu_end(t_philo *philo, pthread_mutex_t *sim_mutex
+		,int num_of_philos)
+{
+	int	simulation_ended;
+
+	simulation_ended = 0;
+	pthread_mutex_lock(sim_mutex);
+	if (simulation_ended)
+	{
+		pthread_mutex_unlock(sim_mutex);
+		return (0);
+	}
+	pthread_mutex_unlock(sim_mutex);
+	if (proper_meals_reached(philo, num_of_philos) == 1
+		|| has_philo_died(philo) == 1)
+	{
+		pthread_mutex_lock(sim_mutex);
+		simulation_ended = 1;
+		pthread_mutex_unlock(sim_mutex);
+		return (0);
+	}
+	return (1);
+}
+*/
+int check_simu_end(t_philo *philo)
+{
+    pthread_mutex_lock(philo->end_mutex);
+    if ( has_philo_died(philo)) // 0 means alive
+    {
+        philo->stop_flag = 1;
+    }
+    else
+      philo->stop_flag = 0;
+    pthread_mutex_unlock(philo->end_mutex);
+    return (philo->stop_flag);
+}
 
 void	*philo_lifecycle(void *args)
 {
@@ -25,12 +62,12 @@ void	*philo_lifecycle(void *args)
 	num_of_philos = thread_args->num_of_philos;
 	while (1)
 	{
-		think(philo);
-		if (eating(num_of_philos, forks, philo) == 1)
-			philo->meals_eaten++;
-		sleep_philo(philo);
-		if (has_philo_died(philo) == 1)
-			exit(1);
+		if (think(philo) == 1)
+      break;
+		if (eating(num_of_philos, forks, philo))
+      break;
+		if (sleep_philo(philo))
+      break;
 	}
 	return (NULL);
 }

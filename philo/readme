@@ -25,6 +25,7 @@ Design:
 the flow of the program : 
 
   - what to do: 
+  2. case for if proper_meals provided, simulation end when everyone eats it proper meals
   1. how to exit without using exit();
   1.ensure each case is working properly; 
   2. implement monitor philosohpher for that.

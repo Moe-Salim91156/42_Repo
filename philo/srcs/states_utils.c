@@ -6,28 +6,36 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 14:52:43 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/05 18:09:15 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/06 16:31:04 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void  print_logs(long time, t_philo *philo, char *message)
+long	get_timestamp(void)
 {
-  ft_putlong_fd(time,1);
-  write(1," ",1);
-  ft_putnbr_fd(philo->id + 1,1);
-  write(1," ",1);
-  ft_putstr_fd(message,1);
-  usleep(1);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
+
+void	print_logs(long time, t_philo *philo, char *message)
+{
+	ft_putlong_fd(time, 1);
+	write(1, " ", 1);
+	ft_putnbr_fd(philo->id + 1, 1);
+	write(1, " ", 1);
+	ft_putstr_fd(message, 1);
+	usleep(1);
+}
+
 int	general_eating_logic(int num_of_philos, pthread_mutex_t *forks,
 		t_philo *philo, long times)
 {
 	philo->last_meal = get_timestamp();
 	if (pthread_mutex_lock(philo->printf_mutex) != 0)
 		return (0);
-  printf("mutex in eating logic %p\n",philo->printf_mutex);
 	times = get_timestamp();
 	printf("%ld %d is eating\n", times, philo->id + 1);
 	philo->meals_eaten++;
