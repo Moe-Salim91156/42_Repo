@@ -6,104 +6,68 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 18:12:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/06 18:07:28 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/14 19:39:02 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-pthread_mutex_t	*init_printf_mutex(void)
+void	*philo_routine(void *args)
 {
-	pthread_mutex_t	*printf_mutex;
-
-	printf_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!printf_mutex || pthread_mutex_init(printf_mutex, NULL) != 0)
-	{
-		perror("Failed to initialize printf mutex");
-		exit(EXIT_FAILURE);
-	}
-	return (printf_mutex);
+	(void)args;
+	return (NULL);
 }
-pthread_mutex_t *init_end_mutex(void)
+pthread_mutex_t	*init_forks(t_data *data)
 {
-	pthread_mutex_t	*end_mutex;
-
-	end_mutex = malloc(sizeof(pthread_mutex_t));
-	if (!end_mutex || pthread_mutex_init(end_mutex, NULL) != 0)
-	{
-		perror("Failed to initialize printf mutex");
-		exit(EXIT_FAILURE);
-	}
-	return (end_mutex);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
+	if (!data->forks)
+		return (NULL);
+	return (data->forks);
 }
 
-t_simulation *init_simulation(void)
+t_data	*init_data(t_input_args args)
 {
-    t_simulation *simulation = malloc(sizeof(t_simulation));
-    if (!simulation)
-        return (NULL);
-    simulation->simulation_stop_flag = 0;
-    simulation->sim_end_mutex = malloc(sizeof(pthread_mutex_t));
-    if (!simulation->sim_end_mutex)
-      printf("as;ldkfjas;dlkfjas;f");
-    // Initialize mutex to control simulation end state
-    if (pthread_mutex_init(simulation->sim_end_mutex, NULL) != 0)
-    {
-        free(simulation);
-        return (NULL);
-    }
-    
-    return (simulation);
-}
-
-
-pthread_mutex_t	*init_forks(int num_of_philos)
-{
-	int				i;
-	pthread_mutex_t	*forks;
+	int		i;
+	t_data	*data;
 
 	i = 0;
-	forks = malloc(sizeof(pthread_mutex_t) * num_of_philos);
-	if (!forks)
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
+	data->num_of_philos = atoi(args.av[1]);
+	data->time_to_die = atol(args.av[2]);
+	data->time_to_eat = atol(args.av[3]);
+	data->time_to_sleep = atol(args.av[4]);
+	if (args.ac == 6)
+		data->proper_meals = atoi(args.av[5]);
+	else
+		data->proper_meals = -1;
+	pthread_mutex_init(&data->printf_mutex, NULL);
+	pthread_mutex_init(&data->die_mutex, NULL);
+	if (!init_forks(data))
+		return (NULL);
+	while (i < data->num_of_philos)
 	{
-		// maybe free soemthing here;
-		exit(1);
-	}
-	while (i < num_of_philos)
-	{
-		pthread_mutex_init(&forks[i], NULL);
+		pthread_mutex_init(&data->forks[i], NULL);
 		i++;
 	}
-	return (forks);
+	return (data);
 }
 
-void	create_philos(int num_of_philos, t_philo *philo, pthread_mutex_t *forks,
-		t_input_args args)
+void	init_philo(t_philo *philos, t_data *data)
 {
-	int				i;
-	pthread_mutex_t	*value;
-	pthread_mutex_t	*value2;
+	int	i;
 
-	value = init_printf_mutex();
-  value2 = init_end_mutex();
 	i = 0;
-	while (i < num_of_philos)
+	while (i < data->num_of_philos)
 	{
-		philo[i].id = i;
-		if (args.ac == 6)
-			philo[i].proper_meals = atoi(args.av[5]);
-		else
-			philo[i].proper_meals = 0;
-		philo[i].left_fork = &forks[i];
-		philo[i].right_fork = &forks[(i + 1) % num_of_philos];
-		philo[i].sleep_time = atoi(args.av[4]);
-		philo[i].eating_time = atoi(args.av[3]);
-		philo[i].time_to_die = atoi(args.av[2]);
-		philo[i].meals_eaten = 0;
-		philo[i].printf_mutex = value;
-    philo[i].end_mutex = value2;
-    philo[i].last_meal = get_timestamp();
-    philo[i].stop_flag = 1;
+		philos[i].id = i + 1;
+		philos[i].left_fork = i;
+		philos[i].right_fork = (i + 1) % data->num_of_philos;
+		philos[i].data = data;
+		pthread_mutex_init(&philos[i].philo_mutex, NULL);
+		philos[i].last_meal = get_timestamp();
+		pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
 		i++;
 	}
 }

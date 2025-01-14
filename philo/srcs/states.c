@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 13:58:50 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/06 18:03:16 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:54:48 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	has_philo_died(t_philo *philo)
 	long	now;
 
 	now = get_timestamp();
-  //printf("now time %ld ||| last_meal %ld\n",now,philo->last_meal);
 	if (now - philo->last_meal >= philo->time_to_die)
 	{
 		pthread_mutex_lock(philo->printf_mutex);
@@ -46,7 +45,7 @@ int	has_philo_died(t_philo *philo)
 	}
 	return (0);
 }
-
+// 4 600 100 100
 int	think(t_philo *philo)
 {
 	long	timestamp;
