@@ -28,7 +28,6 @@ void	ft_putlong_fd(long n, int fd)
 	{
 		ft_putchar_fd('-', fd); // Print negative sign
 		n = -n;
-		// Make the number positive for further processing
 	}
 	if (n >= 10)
 	{

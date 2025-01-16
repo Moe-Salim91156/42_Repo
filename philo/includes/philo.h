@@ -18,6 +18,7 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+
 typedef struct s_data
 {
 	int				num_of_philos;
@@ -63,5 +64,6 @@ void				debug_data_init(t_data *data);
 void				debug_mutex_init(t_data *data);
 void				debug_philos_init(t_data *data, t_philo *philos);
 void				*init_thread_args(t_data *d, t_philo *p);
+long	get_timestamp(void);
 
 #endif

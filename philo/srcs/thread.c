@@ -17,8 +17,16 @@ void	*philo_routine(void *args)
 	t_thread_data	*thread_data;
 
 	thread_data = (t_thread_data *)args;
-	while (1)
+	while (thread_data->philo->stop_flag == 1)
 	{
+		if (get_timestamp() - thread_data->philo->last_meal >= thread_data->data->time_to_die)
+		{
+			pthread_mutex_lock(&thread_data->philo->philo_mutex);
+			thread_data->philo->stop_flag = 0;
+			printf("%ld philo %d died\n", get_timestamp(),thread_data->philo->id);
+			pthread_mutex_unlock(&thread_data->philo->philo_mutex);
+			break;
+		}
 		thinking(thread_data);
 		eating(thread_data);
 		sleeping(thread_data);
@@ -37,11 +45,10 @@ int	create_thread(t_data *data, t_philo *philo)
 		thread_data = init_thread_args(data, philo);
 		if (!thread_data)
 			return (-1);
-        thread_data->philo = &philo[i];  // Assign correct philosopher data to thread_data
+        thread_data->philo = &philo[i];
 		if (pthread_create(&philo[i].thread, NULL, philo_routine,
 				(void *)thread_data) != 0)
 		{
-			perror("Error creating thread");
 			free(thread_data);
 			return (-1);
 		}

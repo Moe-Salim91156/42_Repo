@@ -14,13 +14,12 @@
 
 void	join_thread(t_data *data, t_philo *philo)
 {
-	// Join the threads to ensure they complete before the program exits
 	for (int i = 0; i < data->num_of_philos; i++)
 	{
 		pthread_join(philo[i].thread, NULL);
-		// Wait for each philosopher's thread to finish
 	}
 }
+
 void	*init_structs(t_data **data, t_philo **philo, int ac, char **av)
 {
 	*data = init_data(ac, av);
@@ -42,6 +41,8 @@ int	main(int ac, char **av)
 
 	if (init_structs(&data, &philo, ac, av) == NULL)
 		return (1);
+	debug_philos_init(data,philo);
+	debug_data_init(data);
 	create_thread(data, philo);
 	join_thread(data, philo);
 	return (0);

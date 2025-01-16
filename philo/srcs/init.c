@@ -59,8 +59,9 @@ void	*init_philo(t_data *data)
 	while (i < data->num_of_philos)
 	{
 		philo[i].id = i + 1;
-		philo[i].stop_flag = 0;
+		philo[i].stop_flag = 1;
 		philo[i].left_fork = &data->forks[i];
+		philo[i].last_meal = get_timestamp();
 		philo[i].right_fork = &data->forks[(i + 1) % data->num_of_philos];
 		philo[i].meals_eaten = 0;
 		philo[i].data = data;
