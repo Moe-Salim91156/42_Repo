@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/14 19:49:10 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/16 16:45:52 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-typedef struct s_input_args
-{
-	char			**av;
-	int				ac;
-}					t_input_args;
-
 typedef struct s_data
 {
 	int				num_of_philos;
@@ -34,7 +27,8 @@ typedef struct s_data
 	int				proper_meals;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printf_mutex;
-	pthread_mutex_t	die_mutex;
+	pthread_mutex_t	death_mutex;
+
 
 }					t_data;
 
@@ -45,24 +39,22 @@ typedef struct s_philo
 	int				right_fork;
 	int				meals_eaten;
 	long			last_meal;
-	pthread_t		thread;
+  int       stop_flag;
 	pthread_mutex_t	philo_mutex;
 	t_data			*data;
 
 }					t_philo;
 
-t_data	*init_data(t_input_args args);
-void	init_philo(t_philo *philos, t_data *data);
-long				get_timestamp(void);
+typedef struct s_monitor_data
+{
+    t_data *data;
+    t_philo *philos;
+} t_monitor_data;
 
+void  *init_data(int ac,char **av);
+void  *init_philo(t_data *data);
+void debug_data_init(t_data *data);
+void debug_mutex_init(t_data *data);
+void debug_philos_init(t_data *data, t_philo *philos);
 
-
-
-
-int					sleep_philo(t_philo *philo);
-void				join_threads(pthread_t *threads, int num_of_philos);
-void				ft_putlong_fd(long n, int fd);
-void				ft_putnbr_fd(int n, int fd);
-void				ft_putstr_fd(char *s, int fd);
-void				print_logs(long time, t_philo *philo, char *message);
 #endif

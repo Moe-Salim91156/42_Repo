@@ -5,69 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/30 18:12:25 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/14 19:39:02 by msalim           ###   ########.fr       */
+/*   Created: 2025/01/16 16:02:47 by msalim            #+#    #+#             */
+/*   Updated: 2025/01/16 16:39:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
-
-void	*philo_routine(void *args)
+#include  "../includes/philo.h"
+void init_mutexes_for_data(t_data *data)
 {
-	(void)args;
-	return (NULL);
-}
-pthread_mutex_t	*init_forks(t_data *data)
-{
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
-	if (!data->forks)
-		return (NULL);
-	return (data->forks);
+  pthread_mutex_init(&data->printf_mutex, NULL);
+  pthread_mutex_init(&data->death_mutex, NULL);
 }
 
-t_data	*init_data(t_input_args args)
+pthread_mutex_t *init_forks(t_data *data)
 {
-	int		i;
-	t_data	*data;
-
-	i = 0;
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (NULL);
-	data->num_of_philos = atoi(args.av[1]);
-	data->time_to_die = atol(args.av[2]);
-	data->time_to_eat = atol(args.av[3]);
-	data->time_to_sleep = atol(args.av[4]);
-	if (args.ac == 6)
-		data->proper_meals = atoi(args.av[5]);
-	else
-		data->proper_meals = -1;
-	pthread_mutex_init(&data->printf_mutex, NULL);
-	pthread_mutex_init(&data->die_mutex, NULL);
-	if (!init_forks(data))
-		return (NULL);
-	while (i < data->num_of_philos)
-	{
-		pthread_mutex_init(&data->forks[i], NULL);
-		i++;
-	}
-	return (data);
+  data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
+  if (!data->forks)
+    return (NULL);
+  return (data->forks);
 }
 
-void	init_philo(t_philo *philos, t_data *data)
+void  *init_data (int ac, char **av)
 {
-	int	i;
+  t_data *data;
 
-	i = 0;
-	while (i < data->num_of_philos)
-	{
-		philos[i].id = i + 1;
-		philos[i].left_fork = i;
-		philos[i].right_fork = (i + 1) % data->num_of_philos;
-		philos[i].data = data;
-		pthread_mutex_init(&philos[i].philo_mutex, NULL);
-		philos[i].last_meal = get_timestamp();
-		pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
-		i++;
-	}
+  data = malloc(sizeof(t_data));
+  if (!data)
+    return (NULL);
+  data->num_of_philos = atol(av[1]);
+  data->time_to_die = atol(av[2]);
+  data->time_to_eat = atol(av[3]);
+  data->time_to_sleep = atol(av[4]);
+  if (ac == 6)
+    data->proper_meals = atol(av[5]);
+  else
+    data->proper_meals = -1;
+  init_mutexes_for_data(data);
+  if (!init_forks(data))
+    return (NULL);
+  return (data);
 }
+
+void  *init_philo(t_data *data)
+{
+  t_philo *philo;
+  int i; 
+
+  philo = malloc(sizeof(t_philo) * data->num_of_philos);
+  if (!philo)
+    return (NULL);
+  i = 0;
+  while (i < data->num_of_philos)
+  {
+    philo[i].id = i + 1;
+    philo[i].stop_flag = 0;
+    philo[i].left_fork = i;
+    philo[i].right_fork = (i + 1) % data->num_of_philos;
+    philo[i].meals_eaten = 0;
+    philo[i].data = data;
+    pthread_mutex_init(&philo[i].philo_mutex,NULL);
+    i++;
+  }
+  return (philo);
+}
+
