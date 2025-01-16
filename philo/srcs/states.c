@@ -5,105 +5,71 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/04 13:58:50 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/13 13:54:48 by msalim           ###   ########.fr       */
+/*   Created: 2025/01/16 18:39:19 by msalim            #+#    #+#             */
+/*   Updated: 2025/01/16 19:25:48 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	proper_meals_reached(t_philo *philo, int num_of_philos)
+long	get_timestamp(void)
 {
-	int	i;
+	struct timeval	tv;
 
-	i = 0;
-	while (i < num_of_philos)
+	if (gettimeofday(&tv, NULL) == -1)
 	{
-		if (philo->proper_meals && philo->meals_eaten == philo->proper_meals)
-		{
-			printf("%ld Philo has eaten its proper meals %ld\n",
-				philo->proper_meals, philo->meals_eaten);
-			return (1);
-		}
-		i++;
+		perror("gettimeofday");
+		return (-1);
 	}
-	return (0);
+	return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+int eating(t_thread_data *thread_data)
+{
+    if (thread_data->philo->id % 2 == 0)
+    {
+        pthread_mutex_lock(thread_data->philo->left_fork); // Lock the left fork
+        printf("%ld philo %d has taken left fork\n", get_timestamp(), thread_data->philo->id);
+
+        pthread_mutex_lock(thread_data->philo->right_fork); // Lock the right fork
+        printf("%ld philo %d has taken right fork\n", get_timestamp(), thread_data->philo->id);
+    }
+    else
+    {
+        pthread_mutex_lock(thread_data->philo->right_fork); // Lock the right fork first
+        printf("%ld philo %d has taken right fork\n", get_timestamp(), thread_data->philo->id);
+
+        pthread_mutex_lock(thread_data->philo->left_fork); // Lock the left fork
+        printf("%ld philo %d has taken left fork\n", get_timestamp(), thread_data->philo->id);
+    }
+
+    printf("%ld philo %d is eating\n", get_timestamp(), thread_data->philo->id);
+    usleep(thread_data->data->time_to_eat * 1000);  // Simulate eating for a given time
+
+    pthread_mutex_unlock(thread_data->philo->left_fork);
+    printf("%ld philo %d has put down left fork\n", get_timestamp(), thread_data->philo->id);
+
+    pthread_mutex_unlock(thread_data->philo->right_fork);
+    printf("%ld philo %d has put down right fork\n", get_timestamp(), thread_data->philo->id);
+
+    return 1;
 }
 
-int	has_philo_died(t_philo *philo)
+int	thinking(t_thread_data *thread_data)
 {
-	long	now;
-
-	now = get_timestamp();
-	if (now - philo->last_meal >= philo->time_to_die)
-	{
-		pthread_mutex_lock(philo->printf_mutex);
-		now = get_timestamp();
-		printf("%ld %d has died\n", now, philo->id + 1);
-		pthread_mutex_unlock(philo->printf_mutex);
-		return (1);
-	}
-	return (0);
-}
-// 4 600 100 100
-int	think(t_philo *philo)
-{
-	long	timestamp;
-
-	timestamp = get_timestamp();
-  if (has_philo_died(philo))
-    return(1);
-	pthread_mutex_lock(philo->printf_mutex);
-	printf("%ld %d is thinking\n", timestamp, philo->id + 1);
-	pthread_mutex_unlock(philo->printf_mutex);
-	usleep(1000);
-  return (0);
+	pthread_mutex_lock(&thread_data->data->printf_mutex);
+	printf("%ld philo %d is thinking\n", get_timestamp(),
+		thread_data->philo->id);
+	pthread_mutex_unlock(&thread_data->data->printf_mutex);
+	usleep(100000);
+	return (1);
 }
 
-int sleep_philo(t_philo *philo)
+int	sleeping(t_thread_data *thread_data)
 {
-	long	timestamp;
-
-  if (has_philo_died(philo))
-    return (1);
-	pthread_mutex_lock(philo->printf_mutex);
-	timestamp = get_timestamp();
-	printf("%ld %d is sleeping\n", timestamp, philo->id + 1);
-	pthread_mutex_unlock(philo->printf_mutex);
-	usleep(philo->sleep_time * 1000);
-  return (0);
-}
-
-int	eating(int num_of_philos, pthread_mutex_t *forks, t_philo *philo)
-{
-	long	times;
-
-	times = get_timestamp();
-  if (has_philo_died(philo))
-    return (1);
-	if (philo->id % 2 == 0)
-	{
-		if (even_philo_logic(num_of_philos, forks, philo, times) == 0)
-		{
-			// free_here
-			return (0);
-		}
-	}
-	else
-	{
-		if (odd_philo_logic(num_of_philos, forks, philo, times) == 0)
-		{
-			// free_something here
-			return (0);
-		}
-	}
-	if (general_eating_logic(num_of_philos, forks, philo, times) == 0)
-	{
-		// free
-		return (0);
-	}
-  //printf("last meal in eating %ld\n",philo->last_meal);
-  philo->last_meal = get_timestamp();
-  philo->meals_eaten++;
-	return (0);
+	pthread_mutex_lock(&thread_data->data->printf_mutex);
+	printf("%ld philo %d is sleeping\n", get_timestamp(),
+		thread_data->philo->id);
+	pthread_mutex_unlock(&thread_data->data->printf_mutex);
+	usleep(thread_data->data->time_to_sleep * 1000);
+	return (1);
 }

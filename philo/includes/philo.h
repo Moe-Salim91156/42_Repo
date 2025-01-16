@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/16 16:45:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/16 19:09:26 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,39 @@ typedef struct s_data
 	pthread_mutex_t	printf_mutex;
 	pthread_mutex_t	death_mutex;
 
-
 }					t_data;
 
 typedef struct s_philo
 {
 	int				id;
-	int				left_fork;
-	int				right_fork;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 	int				meals_eaten;
 	long			last_meal;
-  int       stop_flag;
+	int				stop_flag;
+	pthread_t		thread;
 	pthread_mutex_t	philo_mutex;
 	t_data			*data;
 
 }					t_philo;
 
-typedef struct s_monitor_data
+typedef struct s_thread_data
 {
-    t_data *data;
-    t_philo *philos;
-} t_monitor_data;
+	t_data			*data;
+	t_philo			*philo;
+}					t_thread_data;
 
-void  *init_data(int ac,char **av);
-void  *init_philo(t_data *data);
-void debug_data_init(t_data *data);
-void debug_mutex_init(t_data *data);
-void debug_philos_init(t_data *data, t_philo *philos);
+void				debug_forks_init(t_data *data);
+int					eating(t_thread_data *thread_data);
+int					thinking(t_thread_data *d);
+int					sleeping(t_thread_data *d);
+void				*init_thread_args(t_data *data, t_philo *philo);
+int					create_thread(t_data *data, t_philo *philo);
+void				*init_data(int ac, char **av);
+void				*init_philo(t_data *data);
+void				debug_data_init(t_data *data);
+void				debug_mutex_init(t_data *data);
+void				debug_philos_init(t_data *data, t_philo *philos);
+void				*init_thread_args(t_data *d, t_philo *p);
 
 #endif
