@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:16 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 19:12:44 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 17:42:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	man_im_dead(t_thread_data *thread_data)
 	if (time_since_last_meal >= thread_data->data->time_to_die)
 	{
 		pthread_mutex_lock(&thread_data->data->printf_mutex);
-    pthread_mutex_lock(&thread_data->data->death_mutex);
+		pthread_mutex_lock(&thread_data->data->death_mutex);
 		if (thread_data->data->stop_flag == 1)
 		{
 			thread_data->data->stop_flag = 0;
@@ -67,15 +67,12 @@ void	*philo_routine(void *args)
 	thread_data = (t_thread_data *)args;
 	while (1)
 	{
-if (!man_im_dead(thread_data))
+		if (all_philos_have_eaten(thread_data))
 			break ;
 		if (detect_stop(thread_data) == 0)
 			break ;
-    if (!eating(thread_data))
-      break;
-    if (!sleeping(thread_data))
-      break;
-    if (!thinking(thread_data))
+		if (!eating(thread_data) || !sleeping(thread_data)
+			|| (!thinking(thread_data)))
 			break ;
 		if (!man_im_dead(thread_data))
 			break ;

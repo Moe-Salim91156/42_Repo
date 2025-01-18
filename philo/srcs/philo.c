@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:25:08 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 17:55:38 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 16:55:49 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	join_thread(t_data *data, t_philo *philo)
 		i++;
 	}
 }
+
 void	*init_structs(t_data **data, t_philo **philo, int ac, char **av)
 {
 	*data = init_data(ac, av);

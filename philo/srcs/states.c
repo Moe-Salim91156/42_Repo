@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:39:19 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 19:12:00 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 17:42:02 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	eating(t_thread_data *thread_data)
 		eating1(thread_data);
 	else
 		eating2(thread_data);
-  if(!man_im_dead(thread_data))
-    return (0);
 	pthread_mutex_lock(&thread_data->philo->philo_mutex);
 	thread_data->philo->meals_eaten++;
 	thread_data->philo->last_meal = get_timestamp();
@@ -64,7 +62,7 @@ int	thinking(t_thread_data *thread_data)
 	printf("%ld philo %d is thinking\n", get_timestamp(),
 		thread_data->philo->id);
 	pthread_mutex_unlock(&thread_data->data->printf_mutex);
-	usleep(100000);
+	usleep(10000);
 	return (1);
 }
 

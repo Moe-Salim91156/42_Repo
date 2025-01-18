@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 17:55:36 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 17:20:18 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
-long	ft_atol(const char *nptr);
 int					all_philos_have_eaten(t_thread_data *thread_data);
 void				eating2(t_thread_data *thread_data);
 void				eating1(t_thread_data *thread_data);
