@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/16 19:09:26 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 14:11:04 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				proper_meals;
+  int				stop_flag;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printf_mutex;
 	pthread_mutex_t	death_mutex;
@@ -39,7 +40,6 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	int				meals_eaten;
 	long			last_meal;
-	int				stop_flag;
 	pthread_t		thread;
 	pthread_mutex_t	philo_mutex;
 	t_data			*data;
@@ -52,6 +52,7 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
+int man_im_dead(t_thread_data *thread_data);
 void				debug_forks_init(t_data *data);
 int					eating(t_thread_data *thread_data);
 int					thinking(t_thread_data *d);
