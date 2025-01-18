@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:02:47 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 14:05:36 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 15:09:58 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	*init_data(int ac, char **av)
 	data->time_to_eat = atol(av[3]);
 	data->time_to_sleep = atol(av[4]);
   data->stop_flag = 1;
-	if (ac == 6)
+	if (ac == 7)
 		data->proper_meals = atol(av[5]);
 	else
-		data->proper_meals = 1;
+		data->proper_meals = -1;
 	init_mutexes_for_data(data);
 	if (!init_forks(data))
 		return (NULL);
