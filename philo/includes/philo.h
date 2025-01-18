@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 14:11:04 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 17:55:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				proper_meals;
-  int				stop_flag;
+	int				stop_flag;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printf_mutex;
 	pthread_mutex_t	death_mutex;
@@ -52,7 +52,13 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
-int man_im_dead(t_thread_data *thread_data);
+long	ft_atol(const char *nptr);
+int					all_philos_have_eaten(t_thread_data *thread_data);
+void				eating2(t_thread_data *thread_data);
+void				eating1(t_thread_data *thread_data);
+void				cleanup(t_data *data, t_philo *philo);
+int					detect_stop(t_thread_data *thread_data);
+int					man_im_dead(t_thread_data *thread_data);
 void				debug_forks_init(t_data *data);
 int					eating(t_thread_data *thread_data);
 int					thinking(t_thread_data *d);
@@ -65,6 +71,6 @@ void				debug_data_init(t_data *data);
 void				debug_mutex_init(t_data *data);
 void				debug_philos_init(t_data *data, t_philo *philos);
 void				*init_thread_args(t_data *d, t_philo *p);
-long	get_timestamp(void);
+long				get_timestamp(void);
 
 #endif

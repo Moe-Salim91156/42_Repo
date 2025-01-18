@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:02:47 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/18 15:09:58 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/18 18:11:30 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,18 @@ void	init_mutexes_for_data(t_data *data)
 
 pthread_mutex_t	*init_forks(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	if (!data->forks)
 		return (NULL);
+	while (i < data->num_of_philos)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (NULL);
+		i++;
+	}
 	return (data->forks);
 }
 
@@ -37,8 +46,8 @@ void	*init_data(int ac, char **av)
 	data->time_to_die = atol(av[2]);
 	data->time_to_eat = atol(av[3]);
 	data->time_to_sleep = atol(av[4]);
-  data->stop_flag = 1;
-	if (ac == 7)
+	data->stop_flag = 1;
+	if (ac == 6)
 		data->proper_meals = atol(av[5]);
 	else
 		data->proper_meals = -1;

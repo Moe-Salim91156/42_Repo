@@ -5,84 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 14:52:43 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/06 16:31:04 by msalim           ###   ########.fr       */
+/*   Created: 2025/01/18 16:49:56 by msalim            #+#    #+#             */
+/*   Updated: 2025/01/18 18:07:07 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../includes/philo.h"
 
-long	get_timestamp(void)
+void	eating1(t_thread_data *thread_data)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	pthread_mutex_lock(thread_data->philo->left_fork);
+	pthread_mutex_lock(thread_data->philo->right_fork);
+	pthread_mutex_lock(&thread_data->data->printf_mutex);
+	printf("%ld philo %d has taken fork\n", get_timestamp(),
+		thread_data->philo->id);
+	printf("%ld philo %d has taken fork\n", get_timestamp(),
+		thread_data->philo->id);
+	printf("%ld philo %d is eating\n", get_timestamp(), thread_data->philo->id);
+  usleep(thread_data->data->time_to_eat * 1000);
+  pthread_mutex_unlock(&thread_data->data->printf_mutex);
+	pthread_mutex_unlock(thread_data->philo->left_fork);
+	pthread_mutex_unlock(thread_data->philo->right_fork);
 }
 
-void	print_logs(long time, t_philo *philo, char *message)
+void	eating2(t_thread_data *thread_data)
 {
-	ft_putlong_fd(time, 1);
-	write(1, " ", 1);
-	ft_putnbr_fd(philo->id + 1, 1);
-	write(1, " ", 1);
-	ft_putstr_fd(message, 1);
-	usleep(1);
+	pthread_mutex_lock(thread_data->philo->right_fork);
+	pthread_mutex_lock(thread_data->philo->left_fork);
+	pthread_mutex_lock(&thread_data->data->printf_mutex);
+	printf("%ld philo %d has taken fork\n", get_timestamp(),
+		thread_data->philo->id);
+	printf("%ld philo %d has taken fork\n", get_timestamp(),
+		thread_data->philo->id);
+	printf("%ld philo %d is eating\n", get_timestamp(), thread_data->philo->id);
+  usleep(thread_data->data->time_to_eat * 1000);
+  pthread_mutex_unlock(&thread_data->data->printf_mutex);
+	pthread_mutex_unlock(thread_data->philo->right_fork);
+	pthread_mutex_unlock(thread_data->philo->left_fork);
 }
-
-int	general_eating_logic(int num_of_philos, pthread_mutex_t *forks,
-		t_philo *philo, long times)
+long	ft_atol(const char *nptr)
 {
-	philo->last_meal = get_timestamp();
-	if (pthread_mutex_lock(philo->printf_mutex) != 0)
-		return (0);
-	times = get_timestamp();
-	printf("%ld %d is eating\n", times, philo->id + 1);
-	philo->meals_eaten++;
-	pthread_mutex_unlock(philo->printf_mutex);
-	usleep(philo->eating_time * 1000);
-	pthread_mutex_unlock(&forks[philo->id]);
-	pthread_mutex_unlock(&forks[(philo->id + 1) % num_of_philos]);
-	return (1);
-}
+	int		sign;
+	long	result;
 
-int	odd_philo_logic(int num_of_philos, pthread_mutex_t *forks, t_philo *philo,
-		long times)
-{
-	if (pthread_mutex_lock(&forks[(philo->id + 1) % num_of_philos]) != 0)
-		return (0);
-	pthread_mutex_lock(philo->printf_mutex);
-	times = get_timestamp();
-	printf("%ld %d has picked up right fork\n", times, philo->id + 1);
-	pthread_mutex_unlock(philo->printf_mutex);
-	if (pthread_mutex_lock(&forks[philo->id]) != 0)
+	sign = 1;
+	result = 0;
+	while (*nptr == ' ' || *nptr == '\t' || *nptr == '\n' || *nptr == '\v'
+		|| *nptr == '\f' || *nptr == '\r')
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		pthread_mutex_unlock(&forks[(philo->id + 1) % num_of_philos]);
-		return (0);
+		if (*nptr == '-')
+			sign *= -1;
+		nptr++;
 	}
-	pthread_mutex_lock(philo->printf_mutex);
-	times = get_timestamp();
-	printf("%ld %d has picked up left fork\n", times, philo->id + 1);
-	pthread_mutex_unlock(philo->printf_mutex);
-	return (1);
-}
-int	even_philo_logic(int num_of_philos, pthread_mutex_t *forks, t_philo *philo,
-		long times)
-{
-	if (pthread_mutex_lock(&forks[philo->id]) != 0)
-		return (0);
-	pthread_mutex_lock(philo->printf_mutex);
-	times = get_timestamp();
-	printf("%ld %d has picked up left fork\n", times, philo->id + 1);
-	pthread_mutex_unlock(philo->printf_mutex);
-	if (pthread_mutex_lock(&forks[(philo->id + 1) % num_of_philos]) != 0)
+	while (*nptr >= '0' && *nptr <= '9')
 	{
-		pthread_mutex_unlock(&forks[philo->id]);
-		return (0);
+		result = result * 10 + (*nptr - '0');
+		nptr++;
 	}
-	pthread_mutex_lock(philo->printf_mutex);
-	times = get_timestamp();
-	printf("%ld %d has picked up right fork\n", times, philo->id + 1);
-	pthread_mutex_unlock(philo->printf_mutex);
-	return (1);
+	return (result * sign);
 }
+
