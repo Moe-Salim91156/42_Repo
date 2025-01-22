@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/20 19:23:01 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/22 14:36:36 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ typedef struct s_data
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
+	long			start_time;
 	int				proper_meals;
 	int				stop_flag;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printf_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	data_mutex;
 
 }					t_data;
 
@@ -41,7 +43,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	long			last_meal;
 	pthread_t		thread;
-	pthread_mutex_t	*philo_mutex;
+	pthread_mutex_t	philo_mutex;
 	t_data			*data;
 
 }					t_philo;
@@ -51,14 +53,17 @@ typedef struct s_thread_data
 	t_data			*data;
 	t_philo			*philo;
 }					t_thread_data;
-void  *monitor(void *args);
-void	smart_usleep(long duration, t_thread_data *thread_data);
+
+void				safe_printf(t_thread_data *thread_data, int philosopher_id,
+						const char *action);
+void				*monitor_routine(void *args);
+void				smart_usleep(long duration, long d,t_thread_data *ed);
 int					all_philos_have_eaten(t_thread_data *thread_data);
 void				eating2(t_thread_data *thread_data);
 void				eating1(t_thread_data *thread_data);
 void				cleanup(t_data *data, t_philo *philo);
 int					detect_stop(t_thread_data *thread_data);
-int					man_im_dead(t_thread_data *thread_data);
+int					man_im_dead(t_philo *philo, t_data *d);
 void				debug_forks_init(t_data *data);
 int					eating(t_thread_data *thread_data);
 int					thinking(t_thread_data *d);

@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:02:47 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/20 19:26:23 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/21 19:36:53 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_mutexes_for_data(t_data *data)
 {
 	pthread_mutex_init(&data->printf_mutex, NULL);
 	pthread_mutex_init(&data->death_mutex, NULL);
+	pthread_mutex_init(&data->data_mutex, NULL);
 }
 
 pthread_mutex_t	*init_forks(t_data *data)
@@ -56,35 +57,26 @@ void	*init_data(int ac, char **av)
 		return (NULL);
 	return (data);
 }
-void *init_philo(t_data *data)
+void	*init_philo(t_data *data)
 {
-    t_philo *philo;
-    int i;
+	t_philo	*philo;
+	int		i;
 
-    philo = malloc(sizeof(t_philo) * data->num_of_philos);
-    if (!philo)
-        return (NULL);
-    pthread_mutex_t *shared_mutex = malloc(sizeof(pthread_mutex_t));
-    if (!shared_mutex)
-        return (NULL);
-    pthread_mutex_init(shared_mutex, NULL); // Initialize the shared mutex
-
-    for (i = 0; i < data->num_of_philos; i++) {
-        philo[i].philo_mutex = shared_mutex; // All philosophers share the same mutex
-        philo[i].id = i + 1;
-        philo[i].left_fork = &data->forks[i];
-        philo[i].last_meal = get_timestamp();
-        philo[i].right_fork = &data->forks[(i + 1) % data->num_of_philos];
-        philo[i].meals_eaten = 0;
-        philo[i].data = data;
-    }
-    for (i = 0; i < data->num_of_philos; i++) {
-        printf("Mutex for philo %d: %p\n", philo[i].id, philo[i].philo_mutex);
-    }
-
-    return (philo);
+	philo = malloc(sizeof(t_philo) * data->num_of_philos);
+	if (!philo)
+		return (NULL);
+	for (i = 0; i < data->num_of_philos; i++)
+	{
+		philo[i].id = i + 1;
+		philo[i].left_fork = &data->forks[i];
+		philo[i].last_meal = get_timestamp();
+		philo[i].right_fork = &data->forks[(i + 1) % data->num_of_philos];
+		philo[i].meals_eaten = 0;
+		philo[i].data = data;
+		pthread_mutex_init(&philo[i].philo_mutex, NULL);
+	}
+	return (philo);
 }
-
 
 void	*init_thread_args(t_data *data, t_philo *philo)
 {

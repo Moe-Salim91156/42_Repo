@@ -1,13 +1,13 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g
 
 src_dir = srcs
 obj_dir = objs
 
 INCLUDE = includes
 
-src = monitor.c init.c philo.c thread.c states.c states_utils.c
+src = free.c monitor.c init.c philo.c thread.c states.c states_utils.c
 
 SRCS = $(addprefix $(src_dir)/, $(src))
 OBJS = $(addprefix $(obj_dir)/, $(src:.c=.o))

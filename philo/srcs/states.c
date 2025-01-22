@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:39:19 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/20 19:29:11 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/22 19:22:13 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,45 +23,19 @@ long	get_timestamp(void)
 	}
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
-int detect_stop(t_thread_data *thread_data)
+void	smart_usleep(long start_time, long duration,t_thread_data *thread_data)
 {
-    pthread_mutex_lock(&thread_data->data->death_mutex);
-    int stop = (thread_data->data->stop_flag != 0);
-    pthread_mutex_unlock(&thread_data->data->death_mutex);
-    return stop;
+	long	total;
+
+	total = start_time + duration;
+  pthread_mutex_lock(&thread_data->data->death_mutex);
+	while (thread_data->data->stop_flag && get_timestamp() < total)
+		usleep(1);
+  pthread_mutex_unlock(&thread_data->data->death_mutex);
 }
 
-int	eating(t_thread_data *thread_data)
+int	detect_stop(t_thread_data *thread_data)
 {
-	if (detect_stop(thread_data) == 0)
-		return (0);
-	if (thread_data->philo->id % 2 == 0)
-		eating1(thread_data);
-	else
-		eating2(thread_data);
-	pthread_mutex_lock(thread_data->philo->philo_mutex);
-	thread_data->philo->meals_eaten++;
-	thread_data->philo->last_meal = get_timestamp();
-	pthread_mutex_unlock(thread_data->philo->philo_mutex);
-	return (1);
-}
-
-int	thinking(t_thread_data *thread_data)
-{
-	if (detect_stop(thread_data) == 0)
-		return (0);
-	pthread_mutex_lock(&thread_data->data->printf_mutex);
-	printf("%ld philo %d is thinking\n", get_timestamp(),
-		thread_data->philo->id);
-	pthread_mutex_unlock(&thread_data->data->printf_mutex);
-	usleep(10000);
-	return (1);
-}
-
-int	sleeping(t_thread_data *thread_data)
-{
-	if (detect_stop(thread_data) == 0)
-		return (0);
 	pthread_mutex_lock(&thread_data->data->death_mutex);
 	if (thread_data->data->stop_flag == 0)
 	{
@@ -69,10 +43,34 @@ int	sleeping(t_thread_data *thread_data)
 		return (0);
 	}
 	pthread_mutex_unlock(&thread_data->data->death_mutex);
-	pthread_mutex_lock(&thread_data->data->printf_mutex);
-	printf("%ld philo %d is sleeping\n", get_timestamp(),
-		thread_data->philo->id);
-	pthread_mutex_unlock(&thread_data->data->printf_mutex);
-	usleep(thread_data->data->time_to_sleep * 1000);
+	return (1);
+}
+
+int	eating(t_thread_data *thread_data)
+{
+  if (!detect_stop(thread_data))
+      return (0);
+	if (thread_data->philo->id % 2 == 0)
+		eating1(thread_data);
+	else
+		eating2(thread_data);
+	return (1);
+}
+
+int	thinking(t_thread_data *thread_data)
+{
+  if (!detect_stop(thread_data))
+    return (0);
+	safe_printf(thread_data, thread_data->philo->id, "is thinking\n");
+  usleep(100);
+	return (1);
+}
+
+int	sleeping(t_thread_data *thread_data)
+{
+	if (detect_stop(thread_data) == 0)
+		return (0);
+	safe_printf(thread_data, thread_data->philo->id, "is sleeping\n");
+	smart_usleep(get_timestamp(), thread_data->data->time_to_sleep,thread_data);
 	return (1);
 }
