@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:16 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/23 19:16:27 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/23 20:08:22 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,14 @@ void	*philo_routine(void *args)
 int	create_thread(t_data *data, t_philo *philo)
 {
 	int			i;
-	pthread_t	*threads;
-
-	threads = malloc(sizeof(pthread_t) * data->num_of_philos);
-	if (!threads)
-		return (-1);
 	i = 0;
 	while (i < data->num_of_philos)
 	{
-		if (pthread_create(&threads[i], NULL, philo_routine, &philo[i]) != 0)
+		if (pthread_create(&philo[i].thread, NULL, philo_routine, &philo[i]) != 0)
 			return (-2);
 		i++;
 	}
 	for (int i = 0; i < data->num_of_philos; i++)
-		pthread_join(threads[i], NULL);
+		pthread_join(philo[i].thread, NULL);
 	return (0);
 }

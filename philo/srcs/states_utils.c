@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:49:56 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/23 19:23:32 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/23 20:24:25 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/philo.h"
@@ -16,16 +16,24 @@ void	smart_usleep(t_philo *philo, long start_time, long duration)
 	long	total;
 
 	total = start_time + duration;
-	pthread_mutex_lock(&philo->data->death_mutex);
-	while (philo->data->stop_flag && get_timestamp() < total)
-		usleep(1);
-	pthread_mutex_unlock(&philo->data->death_mutex);
+	while ((detect_stop(philo) && get_timestamp() < total))
+		usleep(500);
 }
 
 void	safe_printf(t_philo *philo, int philosopher_id, const char *action)
 {
 	long	timestamp;
 
+  if (!man_im_dead(philo) || strcmp(action,"has died\n") == 0)
+  {
+    if (strcmp(action,"has died\n") == 0)
+    {
+      pthread_mutex_lock(&philo->data->death_mutex);
+      philo->
+    }
+
+  }
+    return ;
 	pthread_mutex_lock(&philo->data->data_mutex);
 	pthread_mutex_lock(&philo->data->printf_mutex);
 	timestamp = get_timestamp() - philo->data->start_time;
@@ -37,11 +45,11 @@ void	safe_printf(t_philo *philo, int philosopher_id, const char *action)
 void	eating1(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	pthread_mutex_lock(philo->right_fork);
+  safe_printf(philo, philo->id, "has taken a fork\n");
+  pthread_mutex_lock(philo->right_fork);
 	safe_printf(philo, philo->id, "has taken a fork\n");
-	safe_printf(philo, philo->id, "has taken a fork\n");
-	safe_printf(philo, philo->id, "is eating\n");
 	pthread_mutex_lock(&philo->philo_mutex);
+  safe_printf(philo, philo->id, "is eating\n");
 	philo->meals_eaten++;
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&philo->philo_mutex);
@@ -53,11 +61,11 @@ void	eating1(t_philo *philo)
 void	eating2(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_fork);
+  safe_printf(philo, philo->id, "has taken a fork\n");
 	pthread_mutex_lock(philo->left_fork);
 	safe_printf(philo, philo->id, "has taken a fork\n");
-	safe_printf(philo, philo->id, "has taken a fork\n");
-  safe_printf(philo, philo->id, "is eating\n");
 	pthread_mutex_lock(&philo->philo_mutex);
+  safe_printf(philo, philo->id, "is eating\n");
 	philo->meals_eaten++;
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&philo->philo_mutex);
