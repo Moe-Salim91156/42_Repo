@@ -6,86 +6,35 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:23:50 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/16 19:10:29 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/23 18:55:55 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+void debug_stop_flag(t_philo *philo)
+{
+      pthread_mutex_lock(&philo->philo_mutex);
+        pthread_mutex_lock(&philo->data->death_mutex);
+        pthread_mutex_lock(&philo->data->printf_mutex);
+        printf("Philo %d stop_flag: %d\n", philo->id, philo->data->stop_flag);
+        pthread_mutex_unlock(&philo->data->printf_mutex);
+        pthread_mutex_unlock(&philo->data->death_mutex);
+        pthread_mutex_unlock(&philo->philo_mutex);
 
-void	debug_philos_init(t_data *data, t_philo *philos)
-{
-	if (!data || !philos)
-	{
-		printf("Error: Data or Philosophers are NULL\n");
-		return ;
-	}
-	printf("Philosophers initialization:\n");
-	for (int i = 0; i < data->num_of_philos; i++)
-	{
-		printf("Philosopher %d:\n", i);
-		printf("ID: %d\n", philos[i].id);
-		printf("Left Fork: %p\n", philos[i].left_fork);
-		printf("Right Fork: %p\n", philos[i].right_fork);
-		printf("Meals Eaten: %d\n", philos[i].meals_eaten);
-		printf("Last Meal: %ld\n", philos[i].last_meal);
-		// Add more fields as needed for debugging
-	}
 }
-void	debug_mutex_init(t_data *data)
+void debug_last_meal(t_philo *philo)
 {
-	if (!data)
-	{
-		printf("Error: Data struct is NULL\n");
-		return ;
-	}
-	// Check if mutexes are initialized correctly
-	if (pthread_mutex_trylock(&data->printf_mutex) == 0)
-	{
-		printf("Printf Mutex is working correctly.\n");
-		pthread_mutex_unlock(&data->printf_mutex);
-	}
-	else
-	{
-		printf("Error: Printf Mutex initialization failed.\n");
-	}
-	if (pthread_mutex_trylock(&data->death_mutex) == 0)
-	{
-		printf("Death Mutex is working correctly.\n");
-		pthread_mutex_unlock(&data->death_mutex);
-	}
-	else
-	{
-		printf("Error: Death Mutex initialization failed.\n");
-	}
+        pthread_mutex_lock(&philo->philo_mutex);
+        pthread_mutex_lock(&philo->data->printf_mutex);
+        printf("Philo %d last_meal: %ld\n", philo->id, philo->last_meal);
+        pthread_mutex_unlock(&philo->philo_mutex);
+        pthread_mutex_unlock(&philo->data->printf_mutex);
 }
-void	debug_forks_init(t_data *data)
-{
-	if (!data || !data->forks)
-	{
-		printf("Error: Forks are not initialized\n");
-		return ;
-	}
-	printf("Forks initialization successful:\n");
-	for (int i = 0; i < data->num_of_philos; i++)
-	{
-		printf("Fork %d initialized at memory address: %p\n", i,
-			(void *)&data->forks[i]);
-	}
-}
-#include <stdio.h>
 
-void	debug_data_init(t_data *data)
+void debug_all(t_philo *philo)
 {
-	if (!data)
-	{
-		printf("Error: Data struct is NULL\n");
-		return ;
-	}
-	printf("Data initialization successful:\n");
-	printf("Number of Philosophers: %d\n", data->num_of_philos);
-	printf("Time to Die: %ld\n", data->time_to_die);
-	printf("Time to Eat: %ld\n", data->time_to_eat);
-	printf("Time to Sleep: %ld\n", data->time_to_sleep);
-	printf("Proper Meals: %d\n", data->proper_meals);
-	// Add more fields as needed for debugging
+    debug_stop_flag(philo);
+    debug_last_meal(philo);
 }
+
+

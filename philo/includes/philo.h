@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/22 14:36:36 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/23 19:10:47 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,29 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
-void				safe_printf(t_thread_data *thread_data, int philosopher_id,
+
+void debug_all(t_philo *p);
+void  kill_all_philo(t_philo *philo);
+void  debug_last_meal(t_philo *p);
+void				smart_usleep(t_philo *philo, long start_time,
+						long duration);
+void				safe_printf(t_philo *t, int philosopher_id,
 						const char *action);
 void				*monitor_routine(void *args);
-void				smart_usleep(long duration, long d,t_thread_data *ed);
 int					all_philos_have_eaten(t_thread_data *thread_data);
-void				eating2(t_thread_data *thread_data);
-void				eating1(t_thread_data *thread_data);
+void				eating2(t_philo *phlo);
+void				eating1(t_philo *phlo);
 void				cleanup(t_data *data, t_philo *philo);
-int					detect_stop(t_thread_data *thread_data);
-int					man_im_dead(t_philo *philo, t_data *d);
+int	detect_stop(t_philo *philo);
+int					man_im_dead(t_philo *philo);
 void				debug_forks_init(t_data *data);
-int					eating(t_thread_data *thread_data);
-int					thinking(t_thread_data *d);
-int					sleeping(t_thread_data *d);
+int					eating(t_philo *ph);
+int					thinking(t_philo *d);
+int					sleeping(t_philo *d);
 void				*init_thread_args(t_data *data, t_philo *philo);
 int					create_thread(t_data *data, t_philo *philo);
 void				*init_data(int ac, char **av);
 void				*init_philo(t_data *data);
-void				debug_data_init(t_data *data);
-void				debug_mutex_init(t_data *data);
-void				debug_philos_init(t_data *data, t_philo *philos);
 void				*init_thread_args(t_data *d, t_philo *p);
 long				get_timestamp(void);
 
