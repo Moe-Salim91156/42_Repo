@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:49:56 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/23 20:24:25 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:42:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/philo.h"
@@ -16,60 +16,60 @@ void	smart_usleep(t_philo *philo, long start_time, long duration)
 	long	total;
 
 	total = start_time + duration;
-	while ((detect_stop(philo) && get_timestamp() < total))
-		usleep(500);
+	while (get_timestamp() < total && detect_stop(philo))
+	{
+		if (!man_im_dead(philo))
+			break ;
+		usleep(1);
+	}
 }
 
 void	safe_printf(t_philo *philo, int philosopher_id, const char *action)
 {
 	long	timestamp;
 
-  if (!man_im_dead(philo) || strcmp(action,"has died\n") == 0)
-  {
-    if (strcmp(action,"has died\n") == 0)
-    {
-      pthread_mutex_lock(&philo->data->death_mutex);
-      philo->
-    }
-
-  }
-    return ;
+	if (!detect_stop(philo) && strcmp(action, "has died\n") != 0)
+		return ;
 	pthread_mutex_lock(&philo->data->data_mutex);
 	pthread_mutex_lock(&philo->data->printf_mutex);
+	if (strcmp(action, "has died\n") == 0)
+	{
+		pthread_mutex_lock(&philo->data->death_mutex);
+		philo->data->stop_flag = 0; // Ensure no further logs are printed
+		pthread_mutex_unlock(&philo->data->death_mutex);
+	}
 	timestamp = get_timestamp() - philo->data->start_time;
 	printf("%ld philo %d %s", timestamp, philosopher_id, action);
 	pthread_mutex_unlock(&philo->data->printf_mutex);
 	pthread_mutex_unlock(&philo->data->data_mutex);
 }
 
-void	eating1(t_philo *philo)
+int	eating1(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left_fork);
-  safe_printf(philo, philo->id, "has taken a fork\n");
-  pthread_mutex_lock(philo->right_fork);
-	safe_printf(philo, philo->id, "has taken a fork\n");
+	if (!man_im_dead(philo) || !detect_stop(philo))
+		return (0);
 	pthread_mutex_lock(&philo->philo_mutex);
-  safe_printf(philo, philo->id, "is eating\n");
+	safe_printf(philo, philo->id, "is eating\n");
 	philo->meals_eaten++;
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&philo->philo_mutex);
 	smart_usleep(philo, get_timestamp(), philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
+	return (1);
 }
 
-void	eating2(t_philo *philo)
+int	eating2(t_philo *philo)
 {
-	pthread_mutex_lock(philo->right_fork);
-  safe_printf(philo, philo->id, "has taken a fork\n");
-	pthread_mutex_lock(philo->left_fork);
-	safe_printf(philo, philo->id, "has taken a fork\n");
+	if (!man_im_dead(philo) || !detect_stop(philo))
+		return (0);
 	pthread_mutex_lock(&philo->philo_mutex);
-  safe_printf(philo, philo->id, "is eating\n");
+	safe_printf(philo, philo->id, "is eating\n");
 	philo->meals_eaten++;
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&philo->philo_mutex);
 	smart_usleep(philo, get_timestamp(), philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	return (1);
 }

@@ -6,11 +6,12 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:39:19 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/23 20:15:14 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:38:38 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
 long	get_timestamp(void)
 {
 	struct timeval	tv;
@@ -37,28 +38,48 @@ int	detect_stop(t_philo *philo)
 
 int	eating(t_philo *philo)
 {
-  if (!man_im_dead(philo))
-    return (0);
 	if (philo->id % 2 == 0)
-		eating1(philo);
+	{
+		if (detect_stop(philo))
+		{
+			pthread_mutex_lock(philo->left_fork);
+			safe_printf(philo, philo->id, "has taken a fork\n");
+			pthread_mutex_lock(philo->right_fork);
+			safe_printf(philo, philo->id, "has taken a fork\n");
+		}
+		if (!eating1(philo))
+			return (0);
+	}
 	else
-		eating2(philo);
+	{
+		if (detect_stop(philo))
+		{
+			pthread_mutex_lock(philo->right_fork);
+			safe_printf(philo, philo->id, "has taken a fork\n");
+			pthread_mutex_lock(philo->left_fork);
+			safe_printf(philo, philo->id, "has taken a fork\n");
+		}
+		if (!eating2(philo))
+			return (0);
+	}
 	return (1);
 }
 
 int	thinking(t_philo *philo)
 {
-  if (!man_im_dead(philo))
-    return (0);
+	if (!man_im_dead(philo))
+		return (0);
 	safe_printf(philo, philo->id, "is thinking\n");
 	return (1);
 }
 
 int	sleeping(t_philo *philo)
 {
-  if (!man_im_dead(philo))
-    return (0);
+	if (!man_im_dead(philo))
+		return (0);
 	safe_printf(philo, philo->id, "is sleeping\n");
 	smart_usleep(philo, get_timestamp(), philo->data->time_to_sleep);
+	if (!man_im_dead(philo))
+		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/23 19:10:47 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/24 18:40:06 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,19 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
-
-void debug_all(t_philo *p);
-void  kill_all_philo(t_philo *philo);
-void  debug_last_meal(t_philo *p);
+void				debug_all(t_philo *p);
+void				kill_all_philo(t_philo *philo);
+void				debug_last_meal(t_philo *p);
 void				smart_usleep(t_philo *philo, long start_time,
 						long duration);
 void				safe_printf(t_philo *t, int philosopher_id,
 						const char *action);
 void				*monitor_routine(void *args);
 int					all_philos_have_eaten(t_thread_data *thread_data);
-void				eating2(t_philo *phlo);
-void				eating1(t_philo *phlo);
+int					eating2(t_philo *phlo);
+int					eating1(t_philo *phlo);
 void				cleanup(t_data *data, t_philo *philo);
-int	detect_stop(t_philo *philo);
+int					detect_stop(t_philo *philo);
 int					man_im_dead(t_philo *philo);
 void				debug_forks_init(t_data *data);
 int					eating(t_philo *ph);

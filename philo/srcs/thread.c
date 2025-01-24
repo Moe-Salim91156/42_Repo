@@ -6,29 +6,11 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:16 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/23 20:08:22 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:32:33 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-void kill_all_philo(t_philo *philo)
-{
-    int i = 0;
-    pthread_mutex_lock(&philo->data->data_mutex); // Lock the global mutex if needed
-    while (i < philo->data->num_of_philos)
-    {
-      pthread_mutex_lock(&philo->data->death_mutex);
-        if (philo->data->stop_flag == 1)
-        {
-            philo->data->stop_flag = 0;
-        }
-        pthread_mutex_unlock(&philo->data->death_mutex);
-        i++;
-    }
-    pthread_mutex_unlock(&philo->data->data_mutex); // Unlock the global mutex
-    usleep(100);  // Sleep to avoid excessive CPU usage
-}
 
 void	*philo_routine(void *args)
 {
@@ -38,7 +20,7 @@ void	*philo_routine(void *args)
 	while (detect_stop(philo))
 	{
 		if (!man_im_dead(philo))
-      break;
+			break ;
 		if (!eating(philo))
 			break ;
 		if (!sleeping(philo))
@@ -51,11 +33,13 @@ void	*philo_routine(void *args)
 
 int	create_thread(t_data *data, t_philo *philo)
 {
-	int			i;
+	int	i;
+
 	i = 0;
 	while (i < data->num_of_philos)
 	{
-		if (pthread_create(&philo[i].thread, NULL, philo_routine, &philo[i]) != 0)
+		if (pthread_create(&philo[i].thread, NULL, philo_routine,
+				&philo[i]) != 0)
 			return (-2);
 		i++;
 	}
