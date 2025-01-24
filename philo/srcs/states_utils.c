@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:49:56 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/24 19:42:23 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/24 20:01:09 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/philo.h"
@@ -20,28 +20,27 @@ void	smart_usleep(t_philo *philo, long start_time, long duration)
 	{
 		if (!man_im_dead(philo))
 			break ;
-		usleep(1);
+		usleep(100);
 	}
 }
 
-void	safe_printf(t_philo *philo, int philosopher_id, const char *action)
+void safe_printf(t_philo *philo, int philosopher_id, const char *action)
 {
-	long	timestamp;
+    long timestamp;
 
-	if (!detect_stop(philo) && strcmp(action, "has died\n") != 0)
-		return ;
-	pthread_mutex_lock(&philo->data->data_mutex);
-	pthread_mutex_lock(&philo->data->printf_mutex);
-	if (strcmp(action, "has died\n") == 0)
-	{
-		pthread_mutex_lock(&philo->data->death_mutex);
-		philo->data->stop_flag = 0; // Ensure no further logs are printed
-		pthread_mutex_unlock(&philo->data->death_mutex);
-	}
-	timestamp = get_timestamp() - philo->data->start_time;
-	printf("%ld philo %d %s", timestamp, philosopher_id, action);
-	pthread_mutex_unlock(&philo->data->printf_mutex);
-	pthread_mutex_unlock(&philo->data->data_mutex);
+    pthread_mutex_lock(&philo->data->printf_mutex);
+    pthread_mutex_lock(&philo->data->data_mutex);
+
+    if (philo->data->stop_flag == 0 && strcmp(action, "has died\n") != 0)
+    {
+        pthread_mutex_unlock(&philo->data->data_mutex);
+        pthread_mutex_unlock(&philo->data->printf_mutex);
+        return;
+    }
+    timestamp = get_timestamp() - philo->data->start_time;
+    printf("%ld philo %d %s", timestamp, philosopher_id, action);
+    pthread_mutex_unlock(&philo->data->data_mutex);
+    pthread_mutex_unlock(&philo->data->printf_mutex);
 }
 
 int	eating1(t_philo *philo)

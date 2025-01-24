@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:39:19 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/24 19:38:38 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/24 19:48:23 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	detect_stop(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->death_mutex);
 	return (1);
 }
-
 int	eating(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
@@ -44,8 +43,11 @@ int	eating(t_philo *philo)
 		{
 			pthread_mutex_lock(philo->left_fork);
 			safe_printf(philo, philo->id, "has taken a fork\n");
-			pthread_mutex_lock(philo->right_fork);
-			safe_printf(philo, philo->id, "has taken a fork\n");
+			if (detect_stop(philo)) // Double check stop after printing
+			{
+				pthread_mutex_lock(philo->right_fork);
+				safe_printf(philo, philo->id, "has taken a fork\n");
+			}
 		}
 		if (!eating1(philo))
 			return (0);
@@ -56,6 +58,9 @@ int	eating(t_philo *philo)
 		{
 			pthread_mutex_lock(philo->right_fork);
 			safe_printf(philo, philo->id, "has taken a fork\n");
+		}
+		if (detect_stop(philo))
+		{
 			pthread_mutex_lock(philo->left_fork);
 			safe_printf(philo, philo->id, "has taken a fork\n");
 		}
