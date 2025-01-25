@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/24 18:40:06 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/25 19:25:52 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
+int lock_forks(t_philo *philo);
 void				debug_all(t_philo *p);
 void				kill_all_philo(t_philo *philo);
 void				debug_last_meal(t_philo *p);
