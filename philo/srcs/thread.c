@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:16 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/26 13:02:51 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/26 13:38:54 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,6 @@ void	*philo_routine(void *args)
 			break ;
 	}
 	return (NULL);
-}
-
-void	free_array(t_philo *philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < philos->data->num_of_philos)
-	{
-		free(&philos[i]);
-		i++;
-	}
-	free(philos);
 }
 
 int	create_thread(t_data *data, t_philo *philo)
