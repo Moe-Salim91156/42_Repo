@@ -6,11 +6,30 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:16 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/25 19:29:44 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/26 13:02:51 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+int	all_philos_finished(t_philo *philos, int num_philos)
+{
+	int	i;
+	int	all_done;
+
+	i = 0;
+	all_done = 1;
+	while (i < num_philos)
+	{
+		if (philos->meals_eaten < philos->data->proper_meals)
+		{
+			all_done = 0;
+			break ;
+		}
+		i++;
+	}
+	return (all_done);
+}
 
 void	*philo_routine(void *args)
 {
@@ -19,6 +38,9 @@ void	*philo_routine(void *args)
 	philo = (t_philo *)args;
 	while (detect_stop(philo))
 	{
+		if (philo->data->proper_meals != -1 && all_philos_finished(philo,
+				philo->data->num_of_philos) == 1)
+			break ;
 		if (!man_im_dead(philo))
 			break ;
 		if (!eating(philo))
@@ -29,6 +51,19 @@ void	*philo_routine(void *args)
 			break ;
 	}
 	return (NULL);
+}
+
+void	free_array(t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while (i < philos->data->num_of_philos)
+	{
+		free(&philos[i]);
+		i++;
+	}
+	free(philos);
 }
 
 int	create_thread(t_data *data, t_philo *philo)
@@ -43,7 +78,15 @@ int	create_thread(t_data *data, t_philo *philo)
 			return (-2);
 		i++;
 	}
-	for (int i = 0; i < data->num_of_philos; i++)
-		pthread_join(philo[i].thread, NULL);
+	i = 0;
+	while (i < data->num_of_philos)
+	{
+		if (pthread_join(philo[i].thread, NULL) != 0)
+		{
+			printf("join failed");
+			return (-3);
+		}
+		i++;
+	}
 	return (0);
 }

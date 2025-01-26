@@ -25,7 +25,7 @@ int	man_im_dead(t_philo *philo)
 			philo->data->stop_flag = 0;
 			pthread_mutex_unlock(&philo->philo_mutex);
 			pthread_mutex_unlock(&philo->data->death_mutex);
-      safe_printf(philo, philo->id, "has died\n");
+			safe_printf(philo, philo->id, "has died\n");
 			return (0);
 		}
 		pthread_mutex_unlock(&philo->data->death_mutex);

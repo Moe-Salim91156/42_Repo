@@ -6,12 +6,13 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/25 19:25:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/26 13:15:05 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+# include <limits.h>
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -54,7 +55,10 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
-int lock_forks(t_philo *philo);
+int					ft_atoi(const char *s);
+long				ft_atol(const char *str);
+void				lock_fork_even(t_philo *philo);
+void				lock_fork_odd(t_philo *philo);
 void				debug_all(t_philo *p);
 void				kill_all_philo(t_philo *philo);
 void				debug_last_meal(t_philo *p);

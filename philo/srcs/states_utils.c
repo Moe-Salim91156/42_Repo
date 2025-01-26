@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:49:56 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/25 19:34:17 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/26 12:29:11 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../includes/philo.h"
@@ -51,6 +51,7 @@ int	eating1(t_philo *philo)
 	philo->meals_eaten++;
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&philo->philo_mutex);
+	smart_usleep(philo, get_timestamp(), philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 	return (1);
