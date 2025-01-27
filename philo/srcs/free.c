@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 15:48:09 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/26 13:50:52 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/26 19:54:50 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	cleanup_forks(t_data *data)
 	{
 		while (i < data->num_of_philos)
 		{
-			pthread_mutex_destroy(&data->forks[i]);
+			if (pthread_mutex_destroy(&data->forks[i]) != 0)
+				printf("fork i failed %d\n", i);
 			i++;
 		}
 		free(data->forks);
@@ -60,6 +61,7 @@ void	cleanup_mutexes(t_data *data)
 {
 	pthread_mutex_destroy(&data->printf_mutex);
 	pthread_mutex_destroy(&data->death_mutex);
+	pthread_mutex_destroy(&data->data_mutex);
 }
 
 void	cleanup(t_data *data, t_philo *philo)

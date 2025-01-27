@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:39:19 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/26 12:45:44 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/27 15:10:10 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@ long	get_timestamp(void)
 {
 	struct timeval	tv;
 
-	if (gettimeofday(&tv, NULL) == -1)
-	{
-		perror("gettimeofday");
-		return (-1);
-	}
+	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
@@ -42,13 +38,21 @@ int	eating(t_philo *philo)
 	{
 		lock_fork_even(philo);
 		if (!eating1(philo))
+		{
+			pthread_mutex_unlock(philo->left_fork);
+			pthread_mutex_unlock(philo->right_fork);
 			return (0);
+		}
 	}
 	else
 	{
 		lock_fork_odd(philo);
 		if (!eating2(philo))
+		{
+			pthread_mutex_unlock(philo->right_fork);
+			pthread_mutex_unlock(philo->left_fork);
 			return (0);
+		}
 	}
 	return (1);
 }
@@ -67,7 +71,5 @@ int	sleeping(t_philo *philo)
 		return (0);
 	safe_printf(philo, philo->id, "is sleeping\n");
 	smart_usleep(philo, get_timestamp(), philo->data->time_to_sleep);
-	if (!man_im_dead(philo))
-		return (0);
 	return (1);
 }

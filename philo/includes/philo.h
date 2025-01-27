@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 16:31:53 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/26 13:15:05 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/27 15:13:13 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ typedef struct s_thread_data
 	t_philo			*philo;
 }					t_thread_data;
 
+int					ft_strcmp(const char *s1, char *s2);
 int					ft_atoi(const char *s);
 long				ft_atol(const char *str);
-void				lock_fork_even(t_philo *philo);
-void				lock_fork_odd(t_philo *philo);
+int					lock_fork_even(t_philo *philo);
+int					lock_fork_odd(t_philo *philo);
 void				debug_all(t_philo *p);
 void				kill_all_philo(t_philo *philo);
 void				debug_last_meal(t_philo *p);
@@ -83,5 +84,7 @@ void				*init_data(int ac, char **av);
 void				*init_philo(t_data *data);
 void				*init_thread_args(t_data *d, t_philo *p);
 long				get_timestamp(void);
+void				cleanup_mutexes(t_data *d);
+void				cleanup_philos(t_philo *p, t_data *data);
 
 #endif

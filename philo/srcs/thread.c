@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:10:16 by msalim            #+#    #+#             */
-/*   Updated: 2025/01/26 13:50:43 by msalim           ###   ########.fr       */
+/*   Updated: 2025/01/27 14:22:32 by msalim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	handle_one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
 	safe_printf(philo, philo->id, "has taken a fork\n");
-	usleep(philo->data->time_to_die * 1000);
-	pthread_mutex_unlock(philo->left_fork);
+	usleep(philo->data->time_to_die);
 	safe_printf(philo, philo->id, "has died\n");
+	pthread_mutex_unlock(philo->left_fork);
 	philo->data->stop_flag = 0;
 }
 
@@ -57,13 +57,13 @@ void	*philo_routine(void *args)
 				philo->data->num_of_philos) == 1)
 			break ;
 		if (!man_im_dead(philo))
+		{
 			break ;
-		if (!eating(philo))
+		}
+		if (!eating(philo) || !sleeping(philo) || !thinking(philo))
+		{
 			break ;
-		if (!sleeping(philo))
-			break ;
-		if (!thinking(philo))
-			break ;
+		}
 	}
 	return (NULL);
 }
