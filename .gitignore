@@ -1,1 +1,3 @@
 *.o
+checker_linux
+*.sh
