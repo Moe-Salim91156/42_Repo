@@ -23,13 +23,15 @@ A 2D game implemented in C using the MiniLibX library. This project includes pat
 An algorithmic project to sort data using two stacks with minimal operations, demonstrating my understanding of algorithm efficiency and complexity.  
 
 ### **philosophers**  
-Currently working on this project which is kinda the same as the dining philosophers problem.
+Similar to the dining philo problem , the project intrdouce you to the mulit-threading world.
+
 ## Skills Demonstrated  
 - Proficiency in C programming.
 - Debugging and Root cause analysis.
 - Memory management.
 - Adherence to the 42 norminette coding standards.  
 - Low-level programming and algorithm design.
+- Multi-threading programming.
 
 ## How to Use  
 Clone the repository:  
