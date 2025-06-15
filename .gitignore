@@ -1,3 +1,10 @@
 *.o
 checker_linux
 *.sh
+out
+outfile
+in
+infile
+*.swp
+
+

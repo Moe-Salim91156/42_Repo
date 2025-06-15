@@ -14,11 +14,11 @@ SRCS = ft_isalpha.c ft_bzero.c ft_isalnum.c ft_isascii.c ft_isdigit.c ft_isprint
 OBJS = $(SRCS:.c=.o)
 
 # making the library = all rule
-all: $(NAME)
+all: $(NAME)        
 
 # Rule to create static library
 $(NAME): $(OBJS)
-	ar $(ARFLAGS) $@ $^
+	ar $(ARFLAGS) $@ $?
 
 # Rule to build test executable this is for testing, if u wanna make a main.c file and test the linking;
 

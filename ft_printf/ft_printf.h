@@ -15,15 +15,15 @@
 # include <stdarg.h>
 # include <stddef.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <stdlib.h>
 
-int		ft_printf(const char *format, ...);
-int		ft_putnbr(int n);
-int		ft_putchar(char c);
-int		ft_putstr(char *c);
-int		ft_putnbr_hexa(unsigned long num, char *hex_digits);
-int		ft_putnbr_pointer(unsigned long num, char *hex_digits);
-int		ft_putnbr_un(unsigned int n);
+int	ft_printf(const char *format, ...);
+int	ft_putnbr(int n);
+int	ft_putchar(char c);
+int	ft_putstr(char *c);
+int	ft_putnbr_hexa(unsigned long num, char *hex_digits);
+int	ft_putnbr_pointer(unsigned long num, char *hex_digits);
+int	ft_putnbr_un(unsigned int n);
 #endif

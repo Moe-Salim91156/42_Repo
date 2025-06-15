@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../includes/philo.h"
+#include "../includes/philo.h"
 
-
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-  int num_of_philos = atoi(av[1]);
-  
-  return 0;
+	int	num_of_philos;
+
+	num_of_philos = atoi(av[1]);
+	return (0);
 }
