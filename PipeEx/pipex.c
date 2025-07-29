@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:12:04 by msalim            #+#    #+#             */
-/*   Updated: 2024/11/28 17:53:42 by msalim           ###   ########.fr       */
+/*   Updated: 2025/07/29 16:37:01 by moe              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	protect(pid_t pid, int pipefd[])
 	{
 		close(pipefd[0]);
 		close(pipefd[1]);
+		printf("something");
 		perror("fork failed");
 		exit(errno);
 	}
