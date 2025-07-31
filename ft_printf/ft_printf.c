@@ -6,7 +6,7 @@
 /*   By: msalim <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 19:11:27 by msalim            #+#    #+#             */
-/*   Updated: 2024/09/11 15:35:12 by msalim           ###   ########.fr       */
+/*   Updated: 2025/07/29 16:45:54 by moe              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -47,6 +47,7 @@ int	ft_printf(const char *format, ...)
 	i = 0;
 	length = 0;
 	va_start(args, format);
+//TODO:FIX ABDHDHJ
 	while (format[i])
 	{
 		if (format[i] == '%')
